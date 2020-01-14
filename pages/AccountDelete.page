@@ -1,0 +1,10 @@
+<apex:page standardController="Account" extensions="AccountDeleteCtrl">
+    <apex:pageMessage title="Account Delete"
+        summary="Deleting this Account will also remove it from MDM."
+        severity="warning"
+        strength="3"
+        rendered="{!isMdmEligible}" />
+    <apex:form id="accountDeleteForm">
+        <p>Click<apex:commandLink action="{!processDelete}" value="here" id="accountDeleteCommand" /> to delete <b>{!accountName}</b>.</p>
+    </apex:form>
+</apex:page>

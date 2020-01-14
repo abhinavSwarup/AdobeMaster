@@ -1,0 +1,13 @@
+<apex:component >
+  <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+        <title>{!$Label.PP_APC_Header_Label}</title>
+        <link rel="icon" href="img/favicon.ico" type="image/x-icon"/>
+        <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon"/>
+        <meta name="description" content=""/>
+        <meta name="viewport" content="width=device-width initial-scale=1"/>
+        <script src="https://use.typekit.net/yln2mqq.js"></script>
+        <script>try{Typekit.load({ async: true });}catch(e){}</script>
+    </head>
+</apex:component>

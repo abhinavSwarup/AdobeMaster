@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+	<actionOverrides>
+		<actionName>Accept</actionName>
+		<type>Default</type>
+	</actionOverrides>
+	<actionOverrides>
+		<actionName>Clone</actionName>
+		<type>Default</type>
+	</actionOverrides>
+	<actionOverrides>
+		<actionName>Delete</actionName>
+		<type>Default</type>
+	</actionOverrides>
+	<actionOverrides>
+		<actionName>Edit</actionName>
+		<type>Default</type>
+	</actionOverrides>
+	<actionOverrides>
+		<actionName>List</actionName>
+		<type>Default</type>
+	</actionOverrides>
+	<actionOverrides>
+		<actionName>New</actionName>
+		<type>Default</type>
+	</actionOverrides>
+	<actionOverrides>
+		<actionName>Tab</actionName>
+		<type>Default</type>
+	</actionOverrides>
+	<actionOverrides>
+		<actionName>View</actionName>
+		<type>Default</type>
+	</actionOverrides>
+	<deploymentStatus>Deployed</deploymentStatus>
+	<description>Top Level object for the Account Planning process.</description>
+	<enableActivities>false</enableActivities>
+	<enableEnhancedLookup>true</enableEnhancedLookup>
+	<enableFeeds>false</enableFeeds>
+	<enableHistory>true</enableHistory>
+	<enableReports>true</enableReports>
+	<fields>
+		<fullName>Group__c</fullName>
+		<description>The region and vertical for the account plan</description>
+		<externalId>false</externalId>
+		<label>Group</label>
+		<picklist>
+			<picklistValues>
+				<fullName>APAC ANZ</fullName>
+				<default>false</default>
+			</picklistValues>
+			<picklistValues>
+				<fullName>APAC Greater China</fullName>
+				<default>false</default>
+			</picklistValues>
+			<picklistValues>
+				<fullName>APAC India</fullName>
+				<default>false</default>
+			</picklistValues>
+			<picklistValues>
+				<fullName>APAC SEA</fullName>
+				<default>false</default>
+			</picklistValues>
+			<picklistValues>
+				<fullName>EMEA Central</fullName>
+				<default>false</default>
+			</picklistValues>
+			<picklistValues>
+				<fullName>EMEA Northern</fullName>
+				<default>false</default>
+			</picklistValues>
+			<picklistValues>
+				<fullName>EMEA Southwest</fullName>
+				<default>false</default>
+			</picklistValues>
+			<picklistValues>
+				<fullName>EMEA Strategic</fullName>
+				<default>false</default>
+			</picklistValues>
+			<picklistValues>
+				<fullName>Japan B2B</fullName>
+				<default>false</default>
+			</picklistValues>
+			<picklistValues>
+				<fullName>Japan B2C</fullName>
+				<default>false</default>
+			</picklistValues>
+			<picklistValues>
+				<fullName>Japan C&amp;P</fullName>
+				<default>false</default>
+			</picklistValues>
+			<picklistValues>
+				<fullName>NA Commercial</fullName>
+				<default>false</default>
+			</picklistValues>
+			<picklistValues>
+				<fullName>NA FSI</fullName>
+				<default>false</default>
+			</picklistValues>
+			<picklistValues>
+				<fullName>NA Retail</fullName>
+				<default>false</default>
+			</picklistValues>
+			<picklistValues>
+				<fullName>NA Strategic</fullName>
+				<default>false</default>
+			</picklistValues>
+			<picklistValues>
+				<fullName>NA Travel and Hospitality</fullName>
+				<default>false</default>
+			</picklistValues>
+			<picklistValues>
+				<fullName>Test</fullName>
+				<default>false</default>
+			</picklistValues>
+			<sorted>false</sorted>
+		</picklist>
+		<trackHistory>true</trackHistory>
+		<type>Picklist</type>
+	</fields>
+	<fields>
+		<fullName>Parent_Account__c</fullName>
+		<deleteConstraint>Restrict</deleteConstraint>
+		<externalId>false</externalId>
+		<label>Parent Account</label>
+		<referenceTo>Account</referenceTo>
+		<relationshipLabel>Account Plans</relationshipLabel>
+		<relationshipName>Account_Plans</relationshipName>
+		<required>true</required>
+		<trackHistory>true</trackHistory>
+		<type>Lookup</type>
+	</fields>
+	<label>Account Plan</label>
+	<listViews>
+		<fullName>Account_Plans</fullName>
+		<columns>NAME</columns>
+		<columns>Parent_Account__c</columns>
+		<columns>Group__c</columns>
+		<columns>UPDATEDBY_USER</columns>
+		<columns>CREATEDBY_USER</columns>
+		<filterScope>Everything</filterScope>
+		<label>Account Plans</label>
+		<language>en_US</language>
+		<sharedTo>
+			<group>WW_Account_Planning</group>
+		</sharedTo>
+	</listViews>
+	<listViews>
+		<fullName>All</fullName>
+		<filterScope>Everything</filterScope>
+		<label>All</label>
+	</listViews>
+	<nameField>
+		<displayFormat>AP-{0000}</displayFormat>
+		<label>Account Plan</label>
+		<trackHistory>false</trackHistory>
+		<type>AutoNumber</type>
+	</nameField>
+	<pluralLabel>Account Plans</pluralLabel>
+	<recordTypeTrackHistory>false</recordTypeTrackHistory>
+	<recordTypes>
+		<fullName>Account_Plan</fullName>
+		<active>true</active>
+		<description>Default Account Plan record type</description>
+		<label>Account Plan</label>
+		<picklistValues>
+			<picklist>Group__c</picklist>
+			<values>
+				<fullName>APAC ANZ</fullName>
+				<default>false</default>
+			</values>
+			<values>
+				<fullName>APAC Greater China</fullName>
+				<default>false</default>
+			</values>
+			<values>
+				<fullName>APAC India</fullName>
+				<default>false</default>
+			</values>
+			<values>
+				<fullName>APAC SEA</fullName>
+				<default>false</default>
+			</values>
+			<values>
+				<fullName>EMEA Central</fullName>
+				<default>false</default>
+			</values>
+			<values>
+				<fullName>EMEA Northern</fullName>
+				<default>false</default>
+			</values>
+			<values>
+				<fullName>EMEA Southwest</fullName>
+				<default>false</default>
+			</values>
+			<values>
+				<fullName>EMEA Strategic</fullName>
+				<default>false</default>
+			</values>
+			<values>
+				<fullName>Japan B2B</fullName>
+				<default>false</default>
+			</values>
+			<values>
+				<fullName>Japan B2C</fullName>
+				<default>false</default>
+			</values>
+			<values>
+				<fullName>Japan C%26P</fullName>
+				<default>false</default>
+			</values>
+			<values>
+				<fullName>NA Commercial</fullName>
+				<default>false</default>
+			</values>
+			<values>
+				<fullName>NA FSI</fullName>
+				<default>false</default>
+			</values>
+			<values>
+				<fullName>NA Retail</fullName>
+				<default>false</default>
+			</values>
+			<values>
+				<fullName>NA Strategic</fullName>
+				<default>false</default>
+			</values>
+			<values>
+				<fullName>NA Travel and Hospitality</fullName>
+				<default>false</default>
+			</values>
+			<values>
+				<fullName>Test</fullName>
+				<default>false</default>
+			</values>
+		</picklistValues>
+	</recordTypes>
+	<searchLayouts />
+	<sharingModel>ReadWrite</sharingModel>
+	<startsWith>Vowel</startsWith>
+</CustomObject>

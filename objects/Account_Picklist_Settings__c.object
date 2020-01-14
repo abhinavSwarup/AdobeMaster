@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+	<customSettingsType>List</customSettingsType>
+	<customSettingsVisibility>Public</customSettingsVisibility>
+	<description>List of Vertical Focus, Custom Segment and Services Offered Picklist values.</description>
+	<enableFeeds>false</enableFeeds>
+	<fields>
+		<fullName>Type__c</fullName>
+		<description>This will hold the if the picklist value associated with this record is for Vertical Focus, Customer Segment or Services Offered.</description>
+		<externalId>false</externalId>
+		<label>Type</label>
+		<length>20</length>
+		<required>true</required>
+		<type>Text</type>
+		<unique>false</unique>
+	</fields>
+	<fields>
+		<fullName>Value__c</fullName>
+		<description>This will hold the picklist value of the Primary, Secondary and Not Significant fiels on Account for Vertical Focus, Customer Segment and Services Offered</description>
+		<externalId>false</externalId>
+		<label>Value</label>
+		<length>50</length>
+		<required>true</required>
+		<type>Text</type>
+		<unique>false</unique>
+	</fields>
+	<label>Account Picklist Settings</label>
+</CustomObject>

@@ -1,0 +1,20 @@
+<!--
+* Company       : Adobe Systems Inc
+* Description   : Body Component for the UI Customization.
+* History
+* [25.APR.2010]     N. Bustillos    - Code creation.
+* [26.AUG.2010]     R. Almedina     - Commented div element to enable text wrapping of header and added its class to the table element
+ -->
+<apex:component >
+    <apex:attribute name="headerText" type="String" description="the header of the page."/>
+    <!-- <div class="subheader"> -->
+        <table width="100%" cellpadding="5" cellspacing="0" border="0" class="subheader">
+            <tr><td class="subheadertext2">{!headerText}</td></tr>
+        </table>
+    <!-- </div> -->
+    <div class="content">
+        <div style="width:100%;height:100%;overflow:auto;">
+            <apex:componentBody />
+        </div>
+    </div>
+</apex:component>

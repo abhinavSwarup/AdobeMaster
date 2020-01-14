@@ -1,0 +1,231 @@
+<apex:page id="AccountNew" standardController="Account" tabStyle="Account" extensions="AccountNewCtrl" >
+    <style>
+        .Error1 { color: blue; font-weight: strong;}
+        .Error2 { color: green; font-weight: strong;}
+    </style>
+    <apex:sectionHeader title="{!$Label.accAccountEdit}" subtitle="{!$Label.accNewAccount}" />
+    <apex:form id="UserInputForm">
+        <script type="text/javascript">        
+            var asCheck = false;
+            function disableCheckBox(tblElem) {
+                var tblInputs = document.getElementById(tblElem).getElementsByTagName('input');
+                var curIndex = 0;
+                if (asCheck == false) {
+                    for (x = 0;
+                        (x < (tblInputs.length)); x++) {
+                        if (tblInputs[x].id.indexOf('chkCon') != -1) {
+                            if (document.getElementById(tblElem + ':' + curIndex + ':' + 'chkCon').checked == true) {
+                                document.getElementById(tblElem + ':' + curIndex + ':' + 'chkCon').disabled = false;
+                                asCheck = true;
+                            } else {
+                                document.getElementById(tblElem + ':' + curIndex + ':' + 'chkCon').disabled = true;
+                            }
+                            curIndex++;
+                        }
+                    }
+                } else {
+                   for (x = 0;
+                       (x < (tblInputs.length)); x++) {
+                       if (tblInputs[x].id.indexOf('chkCon') != -1) {
+                           if (document.getElementById(tblElem + ':' + curIndex + ':' + 'chkCon').checked == false) {
+                               document.getElementById(tblElem + ':' + curIndex + ':' + 'chkCon').disabled = false;
+                               asCheck = false;
+                           }
+                           curIndex++;
+                       }
+                   }
+               }
+            }
+            
+            console.log("test code to be removed");
+            window.onload = function disabledCheckBoxOnLoad() {
+            var tblElem = 'AccountNew:UserInputForm:MatchesSection:MatchedRecordTable';
+            var tblInputs = document.getElementById(tblElem).getElementsByTagName('input');
+            var curIndex = 0;
+            var hasChecked = false;
+
+            for (x = 0;
+                (x < (tblInputs.length)); x++) {
+                if (tblInputs[x].id.indexOf('chkCon') != -1) {
+                    if (document.getElementById(tblElem + ':' + curIndex + ':' + 'chkCon').checked == true) {
+                        hasChecked = true;
+                        break;
+                    }
+                    curIndex++;
+                }
+            }
+
+           if (hasChecked) {
+               curIndex = 0;
+               for (x = 0;
+                   (x < (tblInputs.length)); x++) {
+                   if (tblInputs[x].id.indexOf('chkCon') != -1) {
+                       if (document.getElementById(tblElem + ':' + curIndex + ':' + 'chkCon').checked == false) {
+                           document.getElementById(tblElem + ':' + curIndex + ':' + 'chkCon').disabled = true;
+                           asCheck = true;
+                       }
+                       curIndex++;
+                   }
+
+               }
+
+           }
+       };
+        
+        </script>
+
+    <apex:pageBlock title="Step 1 - {!$Label.accNewAccountVerification}"
+        mode="edit"
+        id="UserInputSection" 
+        rendered="{!showUserInputSection}">
+        <apex:pageMessages rendered="{!displayErrors}"/>
+        <apex:pageBlockButtons location="both">
+            <apex:commandButton value="{!$Label.accContinue}" action="{!standardizeUserInputValues}"/>
+            <apex:commandButton value="{!$Label.accCancel}" styleClass="btn" reRender="null" action="{!cancelAccountVerificationSection}"/>
+        </apex:pageBlockButtons>
+        <apex:pageBlockSection title="{!$Label.accAccountInformation}" columns="2" id="thePageBlockSecID">
+            <apex:inputField value="{!currentAccount.Name}" id="theNameID"/>
+            <apex:inputField value="{!currentAccount.BillingStreet}" required="true" id="theStreetID"/>
+            <apex:inputField value="{!currentAccount.Website}"/>
+            <apex:inputField value="{!currentAccount.BillingCity}" required="true" id="theCityID"/>
+            <apex:inputHidden />
+            <apex:inputField value="{!currentAccount.BillingState}" id="theStateID"/>
+            <apex:inputHidden />
+            <apex:inputField value="{!currentAccount.BillingPostalCode}" id="theZipID"/>
+            <apex:inputHidden />
+            <apex:inputField value="{!currentAccount.BillingCountry}" required="true" id="thCountryID"/> 
+            <apex:inputField value="{!currentAccount.Industry}" required="true" id="theIndustry" rendered="{! $User.UIThemeDisplayed == 'Theme4d' }"/>
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+    
+    <apex:pageBlock title="Step 2 - {!$Label.accSelectAddress}"
+        id="StandardizedAddressSection"
+        rendered="{!showStandardizedAddressSection}">
+        <apex:pageBlockButtons location="both">
+            <apex:commandButton value="{!$Label.accBack}" action="{!backToUserInputSection}"/>
+            <apex:commandButton value="{!$Label.accUserOriginal}" action="{!useNonStandardizedValues}"/>
+            <apex:commandButton value="{!$Label.accUseSuggestedValue}" action="{!useStandardizedValues}"/>
+        </apex:pageBlockButtons> 
+        <div class="lookup">
+            <apex:pageMessage title="Address Standardization Failed"
+                severity="warning"
+                strength="3"
+                summary="{!standardizedAddress.errorMessage}"
+                rendered="{!standardizedAddress.hasError}" />
+            <table border="0" cellpadding="7" width="98%" class="dlg-table">
+                <tr >
+                    <th class="dlg-table-header" width="26%">&nbsp;</th>
+                    <th valign="top" class="dlg-table-header" width="37%">{!$Label.OnbrdAddressDlgTblColOrig}</th>
+                    <th valign="top" class="dlg-table-header" width="37%">{!$Label.OnbrdAddressDlgTblColSugg}</th>
+                </tr>
+                <tr>
+                    <td valign="top"><strong>{!$Label.OnbrdProfileFullCompName}</strong></td>
+                    <td valign="top">{!originalAddress.companyName}</td>
+                    <td valign="top">{!standardizedAddress.companyName}</td>
+                </tr>
+                <tr>
+                    <td valign="top"><strong>{!$Label.OnbrdProfileStreet}</strong></td>
+                    <td valign="top">{!originalAddress.streetAddress}</td>
+                    <td valign="top"><apex:outputText escape="false" value="{!standardizedAddress.streetDisplay}" /></td>
+                </tr>
+                <tr>
+                    <td valign="top"><strong>{!$Label.OnbrdProfileCity}</strong></td>
+                    <td valign="top">{!originalAddress.city}</td>
+                    <td valign="top">{!standardizedAddress.city}</td>
+                </tr>
+                <tr>
+                    <td valign="top"><strong>{!$Label.OnbrdProfileState}</strong></td>
+                    <td valign="top">{!originalAddress.state}</td>
+                    <td valign="top">{!standardizedAddress.state}</td>
+                </tr>
+                <tr>
+                    <td valign="top"><strong>{!$Label.OnbrdProfilePostCode}</strong></td>
+                    <td valign="top">{!originalAddress.zipCode}</td>
+                    <td valign="top">{!standardizedAddress.zipCode}</td>
+                </tr>
+                <tr>
+                    <td valign="top"><strong>{!$Label.OnbrdProfileCountry}</strong></td>
+                    <td valign="top">{!originalAddress.country}</td>
+                    <td valign="top">{!standardizedAddress.country}</td>
+                </tr>
+            </table>
+            </div>
+        </apex:pageBlock>
+
+        <apex:pageBlock title="Step 3 - {!$Label.accSelectAccount}"
+            id="MatchesSection"
+            rendered="{!showMatchesSection}">
+            
+            <apex:outputPanel id="MdmServicesApiErrorPanel">
+                <apex:pageMessages />
+            </apex:outputPanel>
+
+            <apex:pageBlockButtons location="both"> 
+                <apex:outputPanel id="idButtonsTop" >           
+                    <apex:commandButton value="{!$Label.accCancel}" action="{!backToUserInputSection}"/>
+                    <apex:commandButton value="{!$Label.accUserOriginal}" action="{!useOriginalValues}" rendered="{!NOT(scoreGreaterThanThreshold)}" rerender="MdmServicesApiErrorPanel" />
+                    <apex:commandButton value="{!$Label.accUseSuggested}" action="{!useSuggestedMatch}" rendered="{!hasMatchingRecords}"/>
+                </apex:outputPanel>
+            </apex:pageBlockButtons>
+
+            <apex:outputPanel id="MatchedRecordPanel" rendered="{!hasMatchingRecords}">
+                <apex:pageBlockTable id="MatchedRecordTable" value="{!listSortedMatchedRecord}" var="accountResponse">
+                    <apex:column headerValue="{!$Label.accSelect}"> 
+                        <apex:inputcheckbox id="chkCon" 
+                            value="{!accountResponse.isSelected}" 
+                            onClick="disableCheckBox('AccountNew:UserInputForm:MatchesSection:MatchedRecordTable')"/>
+                    </apex:column>
+                    <apex:column headerValue="{!$Label.accName}" value="{!accountResponse.ORGLGLNAME_NameOne}"/>
+                    <apex:column headerValue="{!$Label.accStreet}" value="{!accountResponse.ORGBUSADDR_LineOne}"/>
+                    <apex:column headerValue="{!$Label.accCity}" value="{!accountResponse.ORGBUSADDR_City}"/>
+                    <apex:column headerValue="{!$Label.accState}" value="{!accountResponse.ORGBUSADDR_State}"/>
+                    <apex:column headerValue="{!$Label.accCountry}" value="{!accountResponse.ORGBUSADDR_CountryCode}"/>
+                    <apex:column headerValue="{!$Label.accZipPostalcode}" value="{!accountResponse.ORGBUSADDR_PostalCode}"/>
+                    <apex:column headerValue="{!$Label.accScore}" value="{!accountResponse.SearchScore}"/>
+                    <apex:column headerValue="{!$Label.accountStatus}" value="{!accountResponse.status}"/>
+                    <apex:column headerValue="{!$Label.accountOwner}" value="{!accountResponse.owner}"/>
+                    <apex:column headerValue="{!$Label.accountRecordType}" value="{!accountResponse.recordTypeName}"/>
+                </apex:pageBlockTable>
+            </apex:outputPanel>
+
+        </apex:pageBlock>
+
+        <apex:pageBlock title="Step 4 - {!$Label.accAccountEdit}"
+            mode="edit"
+            rendered="{!showAccountSaveSection}">
+            <apex:pageMessages />
+            <apex:pageBlockButtons location="both">
+                <apex:commandButton value="{!$Label.accSave}" action="{!saveAccountSaveSection}"/>
+                <apex:commandButton value="{!$Label.accCancel}" action="{!cancelAccountSaveSection}" styleClass="btn" immediate="true"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection title="{!$Label.accAccountInformation}" columns="2">
+                <apex:inputField value="{!currentAccount.Name}" />
+                <apex:inputField value="{!currentAccount.BillingStreet}" required="true" />
+                <apex:inputHidden rendered="{!IF(RecordTypeName='Customer', false, true)}"/>
+                <apex:inputField value="{!currentAccount.Industry}" required="true" rendered="{!IF(RecordTypeName='Customer', true, false)}"/>
+                <apex:inputField value="{!currentAccount.BillingCity}" required="true" />
+                <apex:inputHidden />
+                <apex:inputField value="{!currentAccount.BillingState}" />
+                <apex:inputHidden />
+                <apex:inputField value="{!currentAccount.BillingPostalCode}" />
+                <apex:inputHidden />
+                <apex:inputField value="{!currentAccount.BillingCountry}" required="true"/> 
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="{!$Label.accAdditionalInfo}" columns="2">
+               <apex:outputField value="{!currentAccount.DUNS__c}" /> 
+               <apex:outputField value="{!currentAccount.Domestic_Ultimate_DUNS__c}" />
+               <apex:outputField value="{!currentAccount.Domestic_Ultimate_Business_Name__c}" />
+               <apex:outputField value="{!currentAccount.Global_Ultimate_Business_Name__c}" />
+               <apex:outputField value="{!currentAccount.Global_Ultimate_DUNS__c}" />
+               <apex:outputField value="{!currentAccount.D_B_Industry__c}" />
+               <apex:outputField value="{!currentAccount.D_B_Number_of_Employees__c}" />
+               <apex:outputField value="{!currentAccount.D_B_Annual_Revenue__c}" />
+               <apex:outputField value="{!currentAccount.Account_Cleansed__c}" />
+               <apex:outputField value="{!currentAccount.MDS_Check_Date__c}" />
+               <apex:outputField value="{!currentAccount.OwnerId}" />
+               <apex:outputField value="{!currentAccount.RecordTypeId}" />
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    
+    </apex:form>    
+</apex:page>

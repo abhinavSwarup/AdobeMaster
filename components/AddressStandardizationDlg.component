@@ -1,0 +1,330 @@
+<!--
+* Company       : Adobe Systems Inc
+* Description   : Invokes the Data Services address standardization web service and prompts the user for the final values. 
+* History       :
+* [11.JUN.2010] W. Clavero - Code creation.
+* [19.JUN.2010] W. Clavero - Placed the progressbar dialog in a hidden container.
+* [03.AUG.2010] W. Clavero - Updates for Partner Matching Key
+* [10.AUG.2010] W. Clavero - Updates for Bug #2683807
+* [12.AUG.2010] W. Clavero - Updates for CR #44 : DS Switch 
+-->
+<apex:component controller="AddressStandardizationDlgCtrl">
+    <apex:attribute name="loadJqueryLib" default="true" type="Boolean" description="Variable to handle load of libraries"/>
+    <apex:stylesheet value="{!URLFOR($Resource.jQueryLibrary, '/css/custom-theme/jquery-ui-1.8.2.custom.css')}"/>
+    <apex:outputPanel rendered="{!loadJqueryLib}">
+        <apex:includeScript value="{!URLFOR($Resource.jQueryLibrary, '/js/jquery-1.4.2.min.js')}" />
+        <apex:includeScript value="{!URLFOR($Resource.jQueryLibrary, '/js/jquery-ui-1.8.2.custom.min.js')}" />
+        <!-- <apex:includeScript value="{!URLFOR($Resource.jQueryLibrary, '/js/jquery.bgiframe-2.1.1.js')}" /> -->
+    </apex:outputPanel>
+    <apex:includeScript value="{!$Resource.IE9Fix}" />
+
+    <apex:form id="dlgAddresses">
+        <apex:inputHidden id="origCompanyName" value="{!origCompanyName}" />
+        <apex:inputHidden id="origStreetAdd" value="{!origStreetAddress}" />
+        <apex:inputHidden id="origCity" value="{!origCity}" />
+        <apex:inputHidden id="origState" value="{!origState}" />
+        <apex:inputHidden id="origZip" value="{!origZip}" />
+        <apex:inputHidden id="origCountry" value="{!origCountry}" />
+
+        <apex:inputHidden id="stdzCompanyName" value="{!stdzCompanyName}" />
+        <apex:inputHidden id="stdzStreetAdd" value="{!stdzStreetAddress}" />
+        <apex:inputHidden id="stdzCity" value="{!stdzCity}" />
+        <apex:inputHidden id="stdzState" value="{!stdzState}" />
+        <apex:inputHidden id="stdzZip" value="{!stdzZip}" />
+        <apex:inputHidden id="stdzCountry" value="{!stdzCountry}" />
+        <apex:inputHidden id="stdzMatchKey" value="{!stdzMatchKey}" />
+        
+        <div id="dlgContainer" style="display: none;">
+            <div id="selAddressDlg">
+                <div class="dlg-error">
+                <apex:outputText value="{!$Label.OnbrdAddressDlgError1020}" rendered="{!IF(stdzErrorCode=='1020', 'true', 'false')}" />
+                <apex:outputText value="{!$Label.OnbrdAddressDlgError1030}" rendered="{!IF(stdzErrorCode=='1030', 'true', 'false')}" />
+                <apex:outputText value="{!$Label.OnbrdAddressDlgError1040}" rendered="{!IF(stdzErrorCode=='1040', 'true', 'false')}" />
+                <apex:outputText value="{!$Label.OnbrdAddressDlgError2000}" rendered="{!IF(stdzErrorCode=='2000', 'true', 'false')}" />
+                <apex:outputText value="{!$Label.OnbrdAddressDlgError2010}" rendered="{!IF(stdzErrorCode=='2010', 'true', 'false')}" />
+                <apex:outputText value="{!$Label.OnbrdAddressDlgError2020}" rendered="{!IF(stdzErrorCode=='2020', 'true', 'false')}" />
+                <apex:outputText value="{!$Label.OnbrdAddressDlgError2030}" rendered="{!IF(stdzErrorCode=='2030', 'true', 'false')}" />
+                <apex:outputText value="{!$Label.OnbrdAddressDlgError2040}" rendered="{!IF(stdzErrorCode=='2040', 'true', 'false')}" />
+                <apex:outputText value="{!$Label.OnbrdAddressDlgError3000}" rendered="{!IF(stdzErrorCode=='3000', 'true', 'false')}" />
+                <apex:outputText value="{!$Label.OnbrdAddressDlgError3010}" rendered="{!IF(stdzErrorCode=='3010', 'true', 'false')}" />
+                <apex:outputText value="{!$Label.OnbrdAddressDlgError3030}" rendered="{!IF(stdzErrorCode=='3030', 'true', 'false')}" />
+                <apex:outputText value="{!$Label.OnbrdAddressDlgError3040}" rendered="{!IF(stdzErrorCode=='3040', 'true', 'false')}" />
+                <apex:outputText value="{!$Label.OnbrdAddressDlgError3050}" rendered="{!IF(stdzErrorCode=='3050', 'true', 'false')}" />
+                <apex:outputText value="{!$Label.OnbrdAddressDlgError3060}" rendered="{!IF(stdzErrorCode=='3060', 'true', 'false')}" />
+                <apex:outputText value="{!$Label.OnbrdAddressDlgError3070}" rendered="{!IF(stdzErrorCode=='3070', 'true', 'false')}" />
+                <apex:outputText value="{!$Label.OnbrdAddressDlgError3080}" rendered="{!IF(stdzErrorCode=='3080', 'true', 'false')}" />
+                <apex:outputText value="{!$Label.OnbrdAddressDlgError3090}" rendered="{!IF(stdzErrorCode=='3090', 'true', 'false')}" />
+                <apex:outputText value="{!$Label.OnbrdAddressDlgError3110}" rendered="{!IF(stdzErrorCode=='3110', 'true', 'false')}" />
+                <apex:outputText value="{!$Label.OnbrdAddressDlgError4000}" rendered="{!IF(stdzErrorCode=='4000', 'true', 'false')}" />
+                <apex:outputText value="{!$Label.OnbrdAddressDlgError5000}" rendered="{!IF(stdzErrorCode=='5000', 'true', 'false')}" />
+                <apex:outputText value="{!$Label.OnbrdAddressDlgError5010}" rendered="{!IF(stdzErrorCode=='5010', 'true', 'false')}" />
+                <apex:outputText value="{!$Label.OnbrdAddressDlgError5020}" rendered="{!IF(stdzErrorCode=='5020', 'true', 'false')}" />
+                <apex:outputText value="{!$Label.OnbrdAddressDlgError6000}" rendered="{!IF(stdzErrorCode=='6000', 'true', 'false')}" />
+                </div>
+                <table border="0" cellpadding="7" width="98%" class="dlg-table">
+                    <tr>
+                        <th class="dlg-table-header" width="26%">
+                            &nbsp;
+                        </th>
+                        <th valign="top" class="dlg-table-header" width="37%">
+                            {!$Label.OnbrdAddressDlgTblColOrig}
+                        </th>
+                        <th valign="top" class="dlg-table-header" width="37%">
+                            {!$Label.OnbrdAddressDlgTblColSugg}
+                        </th>
+                    </tr>
+                    <tr>
+                        <td valign="top">
+                            <strong>{!$Label.OnbrdProfileFullCompName}</strong>
+                        </td>
+                        <td valign="top">
+                            {!origCompanyName}
+                        </td>
+                        <td valign="top">
+                            {!stdzCompanyName}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top">
+                            <strong>{!$Label.OnbrdProfileStreet}</strong>
+                        </td>
+                        <td valign="top">
+                            {!origStreetAddress}
+                        </td>
+                        <td valign="top">
+                            <apex:outputText escape="false" value="{!stdzStreetDisplay}" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top">
+                            <strong>{!$Label.OnbrdProfileCity}</strong>
+                        </td>
+                        <td valign="top">
+                            {!origCity}
+                        </td>
+                        <td valign="top">
+                            {!stdzCity}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top">
+                            <strong>{!$Label.OnbrdProfileState}</strong>
+                        </td>
+                        <td valign="top">
+                            {!origState}
+                        </td>
+                        <td valign="top">
+                            {!stdzState}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top">
+                            <strong>{!$Label.OnbrdProfilePostCode}</strong>
+                        </td>
+                        <td valign="top">
+                            {!origZip}
+                        </td>
+                        <td valign="top">
+                            {!stdzZip}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top">
+                            <strong>{!$Label.OnbrdProfileCountry}</strong>
+                        </td>
+                        <td valign="top">
+                            {!origCountry}
+                        </td>
+                        <td valign="top">
+                            {!stdzCountry}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <apex:actionFunction id="getStandardAddress" name="getStandardAddress" action="{!getStandardAddress}" oncomplete="showAddressJQDlg()" reRender="dlgAddresses" />
+    </apex:form>    
+
+    <div id="progressContainer" style="display: none;">
+        <div id="progressDlg" style="text-align: center;">
+            <table border="0" cellpadding="7" width="98%" class="dlg-table">
+                <tr>
+                    <td>
+                        {!$Label.OnbrdAddressDlgProgressMsg}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <img src="{!URLFOR($Resource.AdobePortalStyles, '/images/loading.gif')}" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+    <script type="text/javascript">
+        //data sources
+        var dlgCompanyInput = null;
+        var dlgStreetInput = null;
+        var dlgCityInput = null;
+        var dlgStateInput = null;
+        var dlgZipInput = null;
+        var dlgCountryInput = null;
+        var dlgMatchKeyInput = null;
+                
+        var dlgCallback = null;
+        var dlgKeepName = false;
+        var dlgKeepCountry = false;
+        var dlgSelCoAdd = true;
+        
+        var dlgResultBtn = 2;
+        $(document).ready(function() {
+            $("#progressDlg").dialog({
+                autoOpen: false,
+                bgiframe: true,
+                modal: true,
+                draggable: false,
+                width: 400,
+                height: 150,
+                resizable: false,
+                zIndex: 3000,
+                title: "{!$Label.OnbrdAddressDlgProgressHdr}"
+            });
+        });
+
+        //return the user's selection       
+        function setAddressFields() {
+            if ((dlgCompanyInput != null) && (dlgCallback != null)) {
+                if (dlgResultBtn == 1) { //use suggested values
+                    //overwrite the original values with standardized values
+                    if (!dlgKeepName) {
+                        document.getElementById(dlgCompanyInput).value = document.getElementById("{!$Component.dlgAddresses.stdzCompanyName}").value;
+                    }
+                    
+                    if (!dlgKeepCountry) {
+                        if (dlgSelCoAdd) {
+                            var dlgSelCo = document.getElementById(dlgCountryInput);
+                            var newCoAdd = document.getElementById("{!$Component.dlgAddresses.stdzCountry}").value;
+                            for (var i = 0; i < dlgSelCo.options.length; i++) {
+                                if (dlgSelCo.options[i].value == newCoAdd) {
+                                    dlgSelCo.options[i].selected = true;
+                                }
+                            }
+                        } else {
+                            document.getElementById(dlgCountryInput).value = document.getElementById("{!$Component.dlgAddresses.stdzCountry}").value;
+                        }                    
+                    }
+                    
+                    document.getElementById(dlgStreetInput).value = document.getElementById("{!$Component.dlgAddresses.stdzStreetAdd}").value;
+                    document.getElementById(dlgCityInput).value = document.getElementById("{!$Component.dlgAddresses.stdzCity}").value;
+                    document.getElementById(dlgStateInput).value = document.getElementById("{!$Component.dlgAddresses.stdzState}").value;
+                    document.getElementById(dlgZipInput).value = document.getElementById("{!$Component.dlgAddresses.stdzZip}").value;
+                }
+                
+                if (dlgResultBtn != 2) { //user did not cancel
+                    document.getElementById(dlgMatchKeyInput).value = document.getElementById("{!$Component.dlgAddresses.stdzMatchKey}").value;
+                }
+                
+                //return the user's action
+                window[dlgCallback](dlgResultBtn);
+            }
+        }
+
+        /*
+         * get the data and call address standardization 
+         * coNmIn = Company Name, stAddIn = Street Address, ctAddIn = City, stAddId = State, zpAddIn = Zip, coAddIn = Country, 
+         * matchKey = Partner Matching Key Source
+         * dlgCB    -> callback function, 
+         * keepNm   -> FALSE=Overwrite Name; TRUE=Keep Name, 
+         * keepCo   -> FALSE=Overwrite Country; TRUE=Keep Country,
+         * selCoAdd -> FALSE=Country is a SPAN tag; TRUE=Country is a SELECT tag
+        */
+        function doAddressStdzn(coNmIn, stAddIn, ctAddIn, stAddId, zpAddIn, coAddIn, matchKey, dlgCB, keepNm, keepCo, selCoAdd) {
+            $("#progressDlg").dialog("open");
+            dlgCompanyInput = coNmIn;
+            dlgStreetInput = stAddIn;
+            dlgCityInput = ctAddIn;
+            dlgStateInput = stAddId;
+            dlgZipInput = zpAddIn;
+            dlgCountryInput = coAddIn;
+            dlgMatchKeyInput = matchKey;
+            
+            dlgCallback = dlgCB;
+            dlgKeepName = keepNm;
+            dlgKeepCountry = keepCo;
+            dlgSelCoAdd = selCoAdd;
+            
+            //get data from source inputs
+            if (dlgKeepName) {
+                document.getElementById("{!$Component.dlgAddresses.origCompanyName}").value = document.getElementById(dlgCompanyInput).innerHTML;
+            } else {
+                document.getElementById("{!$Component.dlgAddresses.origCompanyName}").value = document.getElementById(dlgCompanyInput).value;
+            }
+            
+            if(dlgKeepCountry){
+                document.getElementById("{!$Component.dlgAddresses.origCountry}").value = document.getElementById(dlgCountryInput).innerHTML;
+            }else{
+                if (dlgSelCoAdd) {
+                    document.getElementById("{!$Component.dlgAddresses.origCountry}").value = document.getElementById(dlgCountryInput).options[document.getElementById(dlgCountryInput).selectedIndex].value;
+                } else {
+                    document.getElementById("{!$Component.dlgAddresses.origCountry}").value = document.getElementById(dlgCountryInput).value;
+                }
+            }
+            document.getElementById("{!$Component.dlgAddresses.origStreetAdd}").value = document.getElementById(dlgStreetInput).value;
+            document.getElementById("{!$Component.dlgAddresses.origCity}").value = document.getElementById(dlgCityInput).value;
+            document.getElementById("{!$Component.dlgAddresses.origState}").value = document.getElementById(dlgStateInput).value;
+            document.getElementById("{!$Component.dlgAddresses.origZip}").value = document.getElementById(dlgZipInput).value;
+            
+            //call address stdzn
+            getStandardAddress();           
+        }
+
+        function showAddressJQDlg() {
+            $("#progressDlg").dialog("close");
+            //check for change in address
+            if ((document.getElementById("{!$Component.dlgAddresses.origCompanyName}").value == document.getElementById("{!$Component.dlgAddresses.stdzCompanyName}").value) &&
+                (document.getElementById("{!$Component.dlgAddresses.origStreetAdd}").value == document.getElementById("{!$Component.dlgAddresses.stdzStreetAdd}").value) &&
+                (document.getElementById("{!$Component.dlgAddresses.origCity}").value == document.getElementById("{!$Component.dlgAddresses.stdzCity}").value) &&
+                (document.getElementById("{!$Component.dlgAddresses.origState}").value == document.getElementById("{!$Component.dlgAddresses.stdzState}").value) &&
+                (document.getElementById("{!$Component.dlgAddresses.origZip}").value == document.getElementById("{!$Component.dlgAddresses.stdzZip}").value) &&
+                (document.getElementById("{!$Component.dlgAddresses.origCountry}").value == document.getElementById("{!$Component.dlgAddresses.stdzCountry}").value)) {
+                dlgResultBtn = 0; //set to Use Original
+                setAddressFields();
+            } else {
+                dlgResultBtn = 2; //initialize to Cancel
+                $("#selAddressDlg").dialog({
+                    autoOpen: true,
+                    bgiframe: true,
+                    modal: true,
+                    draggable: false,
+                    width: 550,
+                    height: 390,
+                    resizable: false,
+                    zIndex: 3000,
+                    title: "{!$Label.OnbrdAddressDlgHdr}",
+                    buttons: {"{!$Label.OnbrdAddressDlgBtnUseSugg}": function() {
+                                    if (confirm("{!$Label.OnbrdAddressDlgOverwriteMsg}")) {
+                                        dlgResultBtn = 1;
+                                        $(this).dialog("close");
+                                    }
+                                }, 
+                            "{!$Label.OnbrdAddressDlgBtnUseOrig}": function() {
+                                    dlgResultBtn = 0;
+                                    $(this).dialog("close");
+                                },                                 
+                            "{!$Label.OnbrdGenCancelLabel}": function() {
+                                    dlgResultBtn = 2;
+                                    $(this).dialog("close");
+                                }
+                            },
+                    close: function() {
+                        $(this).dialog("destroy");
+                        $(this).remove();
+                        setAddressFields();
+                    } 
+                });
+            }
+        }
+     </script>
+    
+</apex:component>

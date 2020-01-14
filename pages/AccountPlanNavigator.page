@@ -1,0 +1,11 @@
+<apex:page standardController="Account" extensions="AccountPlanExt" action="{!createAPandNavigate}">
+    <apex:form id="formId">
+        <apex:pageBlock >
+            <apex:pageMessages />
+            <apex:pageBlockButtons location="bottom" >
+                <apex:commandButton action="{!cancel}" value="Return to Account" immediate="true" />
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+    </apex:form>
+    
+</apex:page>

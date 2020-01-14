@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+	<customSettingsType>List</customSettingsType>
+	<customSettingsVisibility>Public</customSettingsVisibility>
+	<description>This will be passed to ECC during webservice call out. The different values are 0001(Sold-to), 0002(Ship-to), 9002(End User).</description>
+	<enableEnhancedLookup>false</enableEnhancedLookup>
+	<enableFeeds>false</enableFeeds>
+	<fields>
+		<fullName>Account_Group_Code__c</fullName>
+		<externalId>false</externalId>
+		<label>Account Group Code</label>
+		<length>4</length>
+		<required>false</required>
+		<type>Text</type>
+		<unique>false</unique>
+	</fields>
+	<fields>
+		<fullName>Account_Group_Name__c</fullName>
+		<externalId>false</externalId>
+		<label>Account Group Name</label>
+		<length>20</length>
+		<required>false</required>
+		<type>Text</type>
+		<unique>false</unique>
+	</fields>
+	<label>Account Group</label>
+</CustomObject>

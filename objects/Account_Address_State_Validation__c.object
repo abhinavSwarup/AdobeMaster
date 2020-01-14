@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+	<customSettingsType>List</customSettingsType>
+	<customSettingsVisibility>Public</customSettingsVisibility>
+	<description>This is used for Account State Validation</description>
+	<enableEnhancedLookup>false</enableEnhancedLookup>
+	<enableFeeds>false</enableFeeds>
+	<label>Account_Address_State_Validation</label>
+</CustomObject>

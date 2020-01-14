@@ -1,0 +1,940 @@
+<apex:component >
+    <apex:attribute name="mainCtrl" type="APCPartnerInfoCtrl" description="Access main controller"/>
+    <style>
+        .mainQues {
+            font-weight: 500;
+        }
+    </style>
+    <div class="panel panel-default">
+        <div class="panel-heading" style="font-weight: bold;">{!$Label.OnbrdPrimaryQuestionnaireSectionHeader1}</div>
+        <div class="panel-body">
+            <apex:repeat value="{!mainCtrl.listFocusQuestion}" var="q">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!--  Yes/No -->
+                        <apex:outputPanel id="op1" layout="block" style="width:100%" rendered="{!IF(q.sobjQuestion.Type__c=='Yes/No',TRUE,FALSE)}">
+                            <div class="row form-group">
+                                <div class="col-md-12">
+                                    <apex:outputText value="{!q.sobjQuestion.Question__c}" styleClass="mainQues"/>&nbsp;<font color="red"><strong>*</strong></font>
+                                </div>
+                            </div>
+                            <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(q.invalidAnswer,TRUE,FALSE)}">
+                                <div class="col-md-12">
+                                    <apex:outputPanel style="width:100%" layout="block">
+                                        <font color="red"><strong>{!$Label.OnbrdGenErrorLabel}</strong>&nbsp;{!$Label.OnbrdPrimaryQuestionnaireYesNoAnsError}</font>
+                                    </apex:outputPanel>
+                                </div>
+                            </apex:outputPanel>
+                            <div class="row form-group">
+                                <div class="col-md-12">
+                                    <apex:selectRadio value="{!q.sobjAnswer.Text_YNU__c}" layout="lineDirection">
+                                        <apex:selectOption itemValue="Yes" itemLabel="{!$Label.OnbrdGenAnsYes} "/>
+                                        <apex:selectOption itemValue="No" itemLabel="{!$Label.OnbrdGenAnsNo} "/>
+                                        <apex:selectOption itemValue="Unsure" itemLabel="{!$Label.OnbrdGenAnsUnsure}" rendered="{!q.sobjQuestion.Show_Unsure__c}"/>
+                                    </apex:selectRadio>
+                                </div>
+                            </div>
+                            <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(NOT(ISNULL(q.sobjQuestion.Other_Info__c)), TRUE, FALSE)}">
+                                <div class="col-md-12">
+                                    <apex:outputText style="width:100%" escape="false" value="{!q.sobjQuestion.Other_Info__c}"/>
+                                </div>
+                            </apex:outputPanel>
+                        </apex:outputPanel> 
+                        <!-- List Radio -->
+                        <apex:outputPanel id="op2" layout="block" style="width:100%" rendered="{!IF(q.sobjQuestion.Type__c=='List Radio',TRUE,FALSE)}">
+                            <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(q.sobjQuestion.Question_Number__c =='1' && mainCtrl.eLink.Retail_Specialization__c=='Digital Imaging/ProVideo',TRUE,FALSE)}">
+                               <div class="col-md-12">
+                                   <apex:outputText value="{!$Label.DigitalSpecSubHead1}"/> <font color="red"><strong>*</strong></font>
+                               </div>
+                            </apex:outputPanel>
+                            <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(q.sobjQuestion.Question_Number__c =='5' && mainCtrl.eLink.Retail_Specialization__c=='Digital Imaging/ProVideo',TRUE,FALSE)}">
+                               <div class="col-md-12">
+                                   <apex:outputText value="{!$Label.DigitalSpecSubHead2}" /> <font color="red"><strong>*</strong></font>
+                               </div>
+                            </apex:outputPanel>
+                            <div class ="row form-group">
+                                <div class ="col-md-12">
+                                    <apex:outputText value="{!q.sobjQuestion.Question__c}" styleClass="mainQues"/>&nbsp;<font color="red"><strong>*</strong></font>
+                                </div>
+                            </div>
+                            <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(q.invalidAnswer,TRUE,FALSE)}">
+                                <div class ="col-md-12">
+                                    <apex:outputPanel style="width:100%" layout="block">
+                                        <font color="red"><strong>{!$Label.OnbrdGenErrorLabel}</strong>&nbsp;{!$Label.OnbrdPrimaryQuestionnaireListInputError}</font>
+                                    </apex:outputPanel>
+                                </div>
+                            </apex:outputPanel>
+                            <div class ="row form-group">
+                                <div class ="col-md-12">
+                                    <apex:selectRadio value="{!q.sobjAnswer.Text_Radio_Long_Answer__c}" layout="pageDirection">
+                                        <apex:selectOptions value="{!q.lstQuestionOptions}"/>
+                                    </apex:selectRadio>
+                                </div>
+                            </div>
+                            <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(NOT(ISNULL(q.sobjQuestion.Other_Info__c)), TRUE, FALSE)}">
+                                <div class ="col-md-12">
+                                    <apex:outputText style="width:100%" escape="false" value="{!q.sobjQuestion.Other_Info__c}"/>
+                                </div>
+                            </apex:outputPanel>
+                        </apex:outputPanel>
+                        <!-- List Checkbox (Multiselect) with Text box-->
+                        <apex:outputPanel id="op3" layout="block" style="width:100%" rendered="{!IF(q.sobjQuestion.Type__c=='CheckBox',TRUE,FALSE)}">
+                            <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(q.sobjQuestion.Question_Number__c =='9' && mainCtrl.eLink.Retail_Specialization__c=='Digital Imaging/ProVideo',TRUE,FALSE)}">
+                               <div class="col-md-12">
+                                   <apex:outputText value="{!$Label.DigitalSpecSubHead3}" /> <font color="red"><strong>*</strong></font>
+                               </div>
+                            </apex:outputPanel>
+                            <div class ="row form-group">
+                                <div class ="col-md-12">
+                                    <apex:outputText value="{!q.sobjQuestion.Question__c}" styleClass="mainQues"/>&nbsp;<font color="red"><strong>*</strong></font>
+                                </div>
+                            </div>
+                            <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(q.invalidAnswer,TRUE,FALSE)}">
+                                <div class ="col-md-12">
+                                    <apex:outputPanel style="width:100%" layout="block">
+                                        <font color="red"><strong>{!$Label.OnbrdGenErrorLabel}</strong>&nbsp;{!$Label.OnbrdPrimaryQuestionnaireListInputError}</font>
+                                    </apex:outputPanel>
+                                </div>
+                            </apex:outputPanel>
+                            <apex:repeat value="{!q.lstSObjQuestionDetail}" var="d">
+                                <div class="row form-group">
+                                    <div class="col-md-12">
+                                        <apex:selectCheckboxes value="{!q.chkBoxval1}" layout="pageDirection" id="ChkboxVal1" onselect="ToggleInput(this,'{!$Component.ChkboxText1}');" onchange="ToggleInput(this,'{!$Component.ChkboxText1}');">
+                                             <apex:selectOptions value="{!q.lstQuestionOptions[0]}"/>
+                                        </apex:selectCheckboxes>
+                                        <apex:inputField value="{!d.sobjDetailAns.Text_Answer1__c}" id="ChkboxText1" styleClass="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-md-12">
+                                        <apex:selectCheckboxes value="{!q.chkBoxval2}" layout="pageDirection" id="ChkboxVal2" onselect="ToggleInput(this,'{!$Component.ChkboxText2}');" onchange="ToggleInput(this,'{!$Component.ChkboxText2}');">
+                                             <apex:selectOptions value="{!q.lstQuestionOptions[1]}"/>
+                                        </apex:selectCheckboxes>
+                                        <apex:inputField value="{!d.sobjDetailAns.Text_Answer2__c}" id="ChkboxText2" styleClass="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-md-12">
+                                        <apex:selectCheckboxes value="{!q.chkBoxval3}" layout="pageDirection" id="ChkboxVal3">
+                                             <apex:selectOptions value="{!q.lstQuestionOptions[2]}"/>
+                                        </apex:selectCheckboxes>
+                                    </div>
+                                </div>
+                            </apex:repeat>
+                            <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(NOT(ISNULL(q.sobjQuestion.Other_Info__c)), TRUE, FALSE)}">
+                                <div class ="col-md-12">
+                                    <apex:outputText style="width:100%" escape="false" value="{!q.sobjQuestion.Other_Info__c}"/>
+                                </div>
+                            </apex:outputPanel>
+                        </apex:outputPanel>
+                        <!-- List Checkbox (Multiselect)-->
+                        <apex:outputPanel id="op4" layout="block" style="width:100%" rendered="{!IF(q.sobjQuestion.Type__c=='List Checkbox (Multiselect)',TRUE,FALSE)}">
+                            <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(q.sobjQuestion.Question_Number__c =='9' && mainCtrl.eLink.Retail_Specialization__c=='Digital Imaging/ProVideo',TRUE,FALSE)}">
+                               <div class="col-md-12">
+                                   <apex:outputText value="{!$Label.DigitalSpecSubHead3}" /> <font color="red"><strong>*</strong></font>
+                               </div>
+                            </apex:outputPanel>
+                            <div class ="row form-group">
+                                <div class ="col-md-12">
+                                    <apex:outputText value="{!q.sobjQuestion.Question__c}" styleClass="mainQues"/>&nbsp;<font color="red"><strong>*</strong></font>
+                                </div>
+                            </div>
+                            <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(q.invalidAnswer,TRUE,FALSE)}">
+                                <div class ="col-md-12">
+                                    <apex:outputPanel style="width:100%" layout="block">
+                                        <font color="red"><strong>{!$Label.OnbrdGenErrorLabel}</strong>&nbsp;{!$Label.OnbrdPrimaryQuestionnaireListInputError}</font>
+                                    </apex:outputPanel>
+                                </div>
+                            </apex:outputPanel>
+                            <div class="row form-group">
+                                <div class="col-md-12">
+                                    <apex:selectCheckboxes value="{!q.sCheckboxAnswers}" layout="pageDirection">
+                                         <apex:selectOptions value="{!q.lstQuestionOptions}"/>
+                                    </apex:selectCheckboxes>
+                                </div>
+                            </div>
+                            <apex:repeat value="{!q.lstSObjQuestionDetail}" var="d">
+                                <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!d.sobjQDetail.Has_Sub_Question__c}">
+                                    <div class="col-md-12">
+                                        {!d.sobjQDetail.Sub_Question__c}
+                                    </div>
+                                </apex:outputPanel>
+                                <!-- QUESTION DETAIL TEXT AREA -->
+                                <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(d.sobjQDetail.Type__c=='TextArea',TRUE,FALSE)}">
+                                    <div class="col-md-3">
+                                        <apex:outputText value="{!d.sobjQDetail.Label1__c}" rendered="{!d.sobjQDetail.Has_Sub_Question__c}"/>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <apex:inputField value="{!d.sobjDetailAns.TextArea_Answer__c}" id="DetailLable1" style="width:95%;height:80px" styleClass="form-control" onchange="removeNonLatinChars(event)"/>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <apex:outputText value="{!d.sobjQDetail.Label2__c}" rendered="{!d.sobjQDetail.Has_Sub_Question__c}"/>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <apex:inputField value="{!d.sobjDetailAns.TextArea_Answer_2__c}" id="DetailLable2" style="width:95%;height:80px" styleClass="form-control" onchange="removeNonLatinChars(event)"/>
+                                    </div>
+                                </apex:outputPanel>
+                            </apex:repeat>
+                            <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(NOT(ISNULL(q.sobjQuestion.Other_Info__c)), TRUE, FALSE)}">
+                                <div class ="col-md-12">
+                                    <apex:outputText style="width:100%" escape="false" value="{!q.sobjQuestion.Other_Info__c}"/>
+                                </div>
+                            </apex:outputPanel>
+                        </apex:outputPanel> 
+                        <!-- List Yes/No -->
+                        <apex:outputPanel id="op5" layout="block" style="width:100%" rendered="{!IF(q.sobjQuestion.Type__c='List Yes/No',TRUE,FALSE)}">
+                            <div class ="row form-group">
+                                <div class ="col-md-12">
+                                    <apex:outputText value="{!q.sobjQuestion.Question__c}" styleClass="mainQues"/>&nbsp;<font color="red"><strong>*</strong></font>
+                                </div>
+                            </div>
+                            <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(q.invalidAnswer,TRUE,FALSE)}">
+                                <div class ="col-md-12">
+                                    <apex:outputPanel style="width:100%" layout="block">
+                                        <font color="red"><strong>{!$Label.OnbrdGenErrorLabel}</strong>&nbsp;{!$Label.OnbrdPrimaryQuestionnaireListYesNoError}</font>
+                                    </apex:outputPanel>
+                                </div>
+                            </apex:outputPanel>
+                            <apex:repeat value="{!q.lstSObjQuestionDetail}" var="d">
+                                <div class="row form-group">
+                                    <div class="col-md-6">
+                                        &nbsp;&nbsp;&nbsp;<apex:outputText value="{!d.sobjQDetail.Sub_Question__c}" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <apex:selectRadio value="{!d.sobjDetailAns.Text_YNU__c}" layout="lineDirection">
+                                            <apex:selectOption itemValue="Yes" itemLabel="{!$Label.OnbrdGenAnsYes}"/>
+                                            <apex:selectOption itemValue="No" itemLabel="{!$Label.OnbrdGenAnsNo}"/>
+                                            <apex:selectOption itemValue="Unsure" itemLabel="{!$Label.OnbrdGenAnsUnsure}" rendered="{!q.sobjQuestion.Show_Unsure__c}"/>
+                                        </apex:selectRadio>
+                                    </div>
+                                </div>
+                            </apex:repeat>
+                            <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(NOT(ISNULL(q.sobjQuestion.Other_Info__c)), TRUE, FALSE)}">
+                                <div class ="col-md-12">
+                                    <apex:outputText style="width:100%" escape="false" value="{!q.sobjQuestion.Other_Info__c}"/>
+                                </div>
+                            </apex:outputPanel>
+                        </apex:outputPanel> 
+                        <!-- List Input Row View-->
+                        <apex:outputPanel id="op6" layout="block" rendered="{!IF(q.sobjQuestion.Question_Number__c =='25',TRUE,FALSE)}">
+                            <apex:outputPanel layout="block" rendered="{!IF(q.sobjQuestion.Type__c=='List Input',TRUE,FALSE)}">
+                                <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(q.sobjQuestion.Question_Number__c =='16' && mainCtrl.eLink.Retail_Specialization__c=='Digital Imaging/ProVideo',TRUE,FALSE)}">
+                                   <div class="col-md-12">
+                                       <apex:outputText value="{!$Label.DigitalSpecSubHead6}" /> <font color="red"><strong>*</strong></font>
+                                   </div>
+                                </apex:outputPanel>
+                                <div class ="row form-group">
+                                    <div class ="col-md-12">
+                                        <apex:outputText value="{!q.sobjQuestion.Question__c}" styleClass="mainQues"/>&nbsp;<font color="red"><strong>*</strong></font>
+                                    </div>
+                                </div>
+                                <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(q.invalidAnswer,TRUE,FALSE)}">
+                                    <div class ="col-md-12">
+                                        <apex:outputPanel style="width:100%" layout="block">
+                                            <font color="red"><strong>{!$Label.OnbrdGenErrorLabel}</strong>&nbsp;{!$Label.OnbrdPrimaryQuestionnaireListInputError}</font>
+                                        </apex:outputPanel>
+                                    </div>
+                                </apex:outputPanel>
+                                <div class="row form-group">
+                                    <div class="col-md-3">
+                                        <apex:outputText value="{!q.sobjQuestion.Label1__c}"/>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <apex:inputtext value="{!q.sobjAnswer.Text_Answer1__c}" maxlength="80" onchange="removeNonLatinChars(event)" styleClass="form-control" id="Quest1"/>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-md-3">
+                                        <apex:outputText value="{!q.sobjQuestion.Label2__c}"/>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <apex:inputtext value="{!q.sobjAnswer.Text_Answer2__c}" maxlength="80" onchange="removeNonLatinChars(event)" styleClass="form-control" id="Quest2"/>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-md-3">
+                                        <apex:outputText value="{!q.sobjQuestion.Label3__c}"/>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <apex:inputtext value="{!q.sobjAnswer.Text_Answer3__c}" maxlength="80" onchange="removeNonLatinChars(event)" styleClass="form-control" id="Quest3"/>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-md-3">
+                                        <apex:outputText value="{!q.sobjQuestion.Label4__c}"/>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <apex:inputtext value="{!q.sobjAnswer.Text_Answer4__c}" maxlength="80" onchange="removeNonLatinChars(event)" styleClass="form-control" id="Quest4"/>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-md-3">
+                                        <apex:outputText value="{!q.sobjQuestion.Label5__c}"/>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <apex:inputtext value="{!q.sobjAnswer.Text_Answer5__c}" maxlength="80" onchange="removeNonLatinChars(event)" styleClass="form-control" id="Quest5"/>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-md-3">
+                                        <apex:outputText value="{!q.sobjQuestion.Label6__c}"/>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <apex:inputtext value="{!q.sobjAnswer.Text_Answer6__c}" maxlength="80" onchange="removeNonLatinChars(event)" styleClass="form-control" id="Quest6"/>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-md-3">
+                                        <apex:outputText value="{!q.sobjQuestion.Label7__c}"/>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <apex:inputtext value="{!q.sobjAnswer.Text_Answer7__c}" maxlength="80" onchange="removeNonLatinChars(event)" styleClass="form-control" id="Quest7"/>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-md-3">
+                                        <apex:outputText value="{!q.sobjQuestion.Label8__c}"/>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <apex:inputtext value="{!q.sobjAnswer.Text_Answer8__c}" maxlength="80" onchange="removeNonLatinChars(event)" styleClass="form-control" id="Quest8"/>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-md-3">
+                                        <apex:outputText value="{!q.sobjQuestion.Label9__c}"/>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <apex:inputtext value="{!q.sobjAnswer.Text_Answer9__c}" maxlength="80" onchange="removeNonLatinChars(event)" styleClass="form-control" id="Quest9"/>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-md-3">
+                                        <apex:outputText value="{!q.sobjQuestion.Label10__c}"/>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <apex:inputtext value="{!q.sobjAnswer.Text_Answer10__c}" maxlength="80" onchange="removeNonLatinChars(event)" styleClass="form-control" id="Quest10"/>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-md-3">
+                                        <apex:outputText value="{!q.sobjQuestion.Label11__c}"/>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <apex:inputtext value="{!q.sobjAnswer.Text_Answer11__c}" maxlength="80" onchange="removeNonLatinChars(event)" styleClass="form-control" id="Quest11"/>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-md-3">
+                                        <apex:outputText value="{!q.sobjQuestion.Label12__c}"/>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <apex:inputtext value="{!q.sobjAnswer.Text_Answer12__c}" maxlength="80" onchange="removeNonLatinChars(event)" styleClass="form-control" id="Quest12"/>
+                                    </div>
+                                </div>
+                                <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(NOT(ISNULL(q.sobjQuestion.Other_Info__c)), TRUE, FALSE)}">
+                                    <div class ="col-md-12">
+                                        <apex:outputText style="width:100%" escape="false" value="{!q.sobjQuestion.Other_Info__c}"/>
+                                    </div>
+                                </apex:outputPanel>
+                            </apex:outputPanel> 
+                        </apex:outputPanel>
+                        <apex:outputPanel id="op7" layout="block" rendered="{!IF(q.sobjQuestion.Question_Number__c !='25',TRUE,FALSE)}">
+                            <apex:outputPanel layout="block" rendered="{!IF(q.sobjQuestion.Type__c=='List Input',TRUE,FALSE)}">
+                                <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(q.sobjQuestion.Question_Number__c =='16' && mainCtrl.eLink.Retail_Specialization__c=='Digital Imaging/ProVideo',TRUE,FALSE)}">
+                                   <div class="col-md-12">
+                                       <apex:outputText value="{!$Label.DigitalSpecSubHead6}" /> <font color="red"><strong>*</strong></font>
+                                   </div>
+                                </apex:outputPanel>
+                                <div class ="row form-group">
+                                    <div class ="col-md-12">
+                                        <apex:outputPanel rendered="{!(q.sobjQuestion.Chk_Is_Optional__c!= true)}">
+                                            <apex:outputText value="{!q.sobjQuestion.Question__c}" styleClass="mainQues"/>&nbsp;<font color="red"><strong>*</strong></font>
+                                        </apex:outputPanel>
+                                        <apex:outputPanel rendered="{!(q.sobjQuestion.Chk_Is_Optional__c== true)}">
+                                            <apex:outputText value="{!q.sobjQuestion.Question__c}" styleClass="mainQues"/>&nbsp;
+                                        </apex:outputPanel>
+                                    </div>
+                                </div>
+                                <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(q.invalidAnswer,TRUE,FALSE)}">
+                                    <div class ="col-md-12">
+                                        <apex:outputPanel style="width:100%" layout="block">
+                                            <font color="red"><strong>{!$Label.OnbrdGenErrorLabel}</strong>&nbsp;{!$Label.OnbrdPrimaryQuestionnaireListInputError}</font>
+                                        </apex:outputPanel>
+                                    </div>
+                                </apex:outputPanel>
+                                <apex:outputPanel layout="block" styleClass="form-group" style="width:800px;">
+                                    <apex:panelGrid style="{!IF(q.sobjQuestion.Stretch_Table__c,'width:90%;table-layout:fixed;word-wrap:break-word;','')}" columns="{!IF(ISNULL(q.sobjQuestion.Number_of_Columns__c),1,q.sobjQuestion.Number_of_Columns__c)}">
+                                        <apex:panelGroup rendered="{!q.bCols1}">
+                                            <apex:outputPanel layout="block" style="width:157px;">
+                                                <apex:outputText value="{!q.sobjQuestion.Label1__c}"/>&nbsp;&nbsp;
+                                            </apex:outputPanel>
+                                        </apex:panelGroup>
+                                        <apex:panelGroup rendered="{!q.bCols2}">
+                                            <apex:outputPanel layout="block" style="width:170px;">
+                                                <apex:outputText value="{!q.sobjQuestion.Label2__c}"/>&nbsp;&nbsp;
+                                            </apex:outputPanel>
+                                        </apex:panelGroup>
+                                        <apex:panelGroup rendered="{!q.bCols3}">
+                                            <apex:outputPanel layout="block" style="width:170px;">
+                                                <apex:outputText value="{!q.sobjQuestion.Label3__c}"/>&nbsp;&nbsp;
+                                            </apex:outputPanel>
+                                        </apex:panelGroup>
+                                        <apex:panelGroup rendered="{!q.bCols4}">
+                                            <apex:outputPanel layout="block" style="width:170px;">
+                                                <apex:outputText value="{!q.sobjQuestion.Label4__c}"/>&nbsp;&nbsp;
+                                            </apex:outputPanel>
+                                        </apex:panelGroup>
+                                        <apex:panelGroup rendered="{!q.bCols5}">
+                                            <apex:outputPanel layout="block" style="width:150px;">
+                                                <apex:outputText value="{!q.sobjQuestion.Label5__c}"/>&nbsp;&nbsp;
+                                            </apex:outputPanel>
+                                        </apex:panelGroup>
+                                        <apex:panelGroup rendered="{!q.bCols6}">
+                                            <apex:outputPanel layout="block" style="width:150px;">
+                                                <apex:outputText value="{!q.sobjQuestion.Label6__c}"/>&nbsp;&nbsp;
+                                            </apex:outputPanel>
+                                        </apex:panelGroup>
+                                        <apex:panelGroup rendered="{!q.bCols7}">
+                                            <apex:outputPanel layout="block" style="width:150px;">
+                                                <apex:outputText value="{!q.sobjQuestion.Label7__c}"/>&nbsp;&nbsp;
+                                            </apex:outputPanel>
+                                        </apex:panelGroup>
+                                        <apex:panelGroup rendered="{!q.bCols8}">
+                                            <apex:outputPanel layout="block" style="width:150px;">
+                                                <apex:outputText value="{!q.sobjQuestion.Label8__c}"/>&nbsp;&nbsp;
+                                            </apex:outputPanel>
+                                        </apex:panelGroup>
+                                        <apex:panelGroup rendered="{!q.bCols9}">
+                                            <apex:outputPanel layout="block" style="width:150px;">
+                                                <apex:outputText value="{!q.sobjQuestion.Label9__c}"/>&nbsp;&nbsp;
+                                            </apex:outputPanel>
+                                        </apex:panelGroup>
+                                        <apex:panelGroup rendered="{!q.bCols10}">
+                                            <apex:outputPanel layout="block" style="width:150px;">
+                                                <apex:outputText value="{!q.sobjQuestion.Label10__c}"/>&nbsp;&nbsp;
+                                            </apex:outputPanel>
+                                        </apex:panelGroup>
+                                        <apex:panelGroup rendered="{!q.bCols11}">
+                                            <apex:outputPanel layout="block" style="width:150px;">
+                                                <apex:outputText value="{!q.sobjQuestion.Label11__c}"/>&nbsp;&nbsp;
+                                            </apex:outputPanel>
+                                        </apex:panelGroup>
+                                        <apex:panelGroup rendered="{!q.bCols12}">
+                                            <apex:outputPanel layout="block" style="width:150px;">
+                                                <apex:outputText value="{!q.sobjQuestion.Label12__c}"/>&nbsp;&nbsp;
+                                            </apex:outputPanel>
+                                        </apex:panelGroup>
+                                        <apex:panelGroup rendered="{!q.bCols13}">
+                                            <apex:outputPanel layout="block" style="width:150px;">
+                                                <apex:outputText value="{!q.sobjQuestion.Label13__c}"/>&nbsp;&nbsp;
+                                            </apex:outputPanel>
+                                        </apex:panelGroup>
+                                        <apex:panelGroup rendered="{!q.bCols14}">
+                                            <apex:outputPanel layout="block" style="width:150px;">
+                                                <apex:outputText value="{!q.sobjQuestion.Label14__c}"/>&nbsp;&nbsp;
+                                            </apex:outputPanel>
+                                        </apex:panelGroup>
+                                        <apex:panelGroup rendered="{!q.bCols15}">
+                                            <apex:outputPanel layout="block" style="width:150px;">
+                                                <apex:outputText value="{!q.sobjQuestion.Label15__c}"/>&nbsp;&nbsp;
+                                            </apex:outputPanel>
+                                        </apex:panelGroup>
+                                        <apex:panelGroup rendered="{!q.bCols16}">
+                                            <apex:outputPanel layout="block" style="width:150px;">
+                                                <apex:outputText value="{!q.sobjQuestion.Label16__c}"/>&nbsp;&nbsp;
+                                            </apex:outputPanel>
+                                        </apex:panelGroup>
+                                    </apex:panelGrid>
+                                    <apex:panelGrid style="{!IF(q.sobjQuestion.Stretch_Table__c,'width:100%;table-layout:fixed;word-wrap:break-word;','')}" columns="{!IF(ISNULL(q.sobjQuestion.Number_of_Columns__c),1,q.sobjQuestion.Number_of_Columns__c)}">
+                                        <apex:panelGroup rendered="{!q.bQAns1}">
+                                            <apex:inputField value="{!q.sobjAnswer.Text_Answer1__c}" onchange="removeNonLatinChars(event)" style="width:150px;" styleClass="form-control"/>
+                                        </apex:panelGroup>
+                                        <apex:panelGroup rendered="{!q.bQAns2}">
+                                            <apex:inputField value="{!q.sobjAnswer.Text_Answer2__c}" onchange="removeNonLatinChars(event)" style="width:150px;" styleClass="form-control"/>
+                                        </apex:panelGroup>
+                                        <apex:panelGroup rendered="{!q.bQAns3}">
+                                            <apex:inputField value="{!q.sobjAnswer.Text_Answer3__c}" onchange="removeNonLatinChars(event)" style="width:150px;" styleClass="form-control"/>
+                                        </apex:panelGroup>
+                                        <apex:panelGroup rendered="{!q.bQAns4}">
+                                            <apex:inputField value="{!q.sobjAnswer.Text_Answer4__c}" onchange="removeNonLatinChars(event)" style="width:150px;" styleClass="form-control"/>
+                                        </apex:panelGroup>
+                                        <apex:panelGroup rendered="{!q.bQAns5}">
+                                            <apex:inputField value="{!q.sobjAnswer.Text_Answer5__c}" onchange="removeNonLatinChars(event)" style="width:150px;" styleClass="form-control"/>
+                                        </apex:panelGroup>
+                                        <apex:panelGroup rendered="{!q.bQAns6}">
+                                            <apex:inputField value="{!q.sobjAnswer.Text_Answer6__c}" onchange="removeNonLatinChars(event)" style="width:150px;" styleClass="form-control"/>
+                                        </apex:panelGroup>
+                                        <apex:panelGroup rendered="{!q.bQAns7}">
+                                            <apex:inputField value="{!q.sobjAnswer.Text_Answer7__c}" onchange="removeNonLatinChars(event)" style="width:150px;" styleClass="form-control"/>
+                                        </apex:panelGroup>
+                                        <apex:panelGroup rendered="{!q.bQAns8}">
+                                            <apex:inputField value="{!q.sobjAnswer.Text_Answer8__c}" onchange="removeNonLatinChars(event)" style="width:150px;" styleClass="form-control"/>
+                                        </apex:panelGroup>
+                                        <apex:panelGroup rendered="{!q.bQAns9}">
+                                            <apex:inputField value="{!q.sobjAnswer.Text_Answer9__c}" onchange="removeNonLatinChars(event)" style="width:150px;" styleClass="form-control"/>
+                                        </apex:panelGroup>
+                                        <apex:panelGroup rendered="{!q.bQAns10}">
+                                            <apex:inputField value="{!q.sobjAnswer.Text_Answer10__c}" onchange="removeNonLatinChars(event)" style="width:150px;" styleClass="form-control"/>
+                                        </apex:panelGroup>
+                                        <apex:panelGroup rendered="{!q.bQAns11}">
+                                            <apex:inputField value="{!q.sobjAnswer.Text_Answer11__c}" onchange="removeNonLatinChars(event)" style="width:150px;" styleClass="form-control"/>
+                                        </apex:panelGroup>
+                                        <apex:panelGroup rendered="{!q.bQAns12}">
+                                            <apex:inputField value="{!q.sobjAnswer.Text_Answer12__c}" onchange="removeNonLatinChars(event)" style="width:150px;" styleClass="form-control"/>
+                                        </apex:panelGroup>
+                                        <apex:panelGroup rendered="{!q.bQAns13}">
+                                            <apex:inputField value="{!q.sobjAnswer.Text_Answer13__c}" onchange="removeNonLatinChars(event)" style="width:150px;" styleClass="form-control"/>
+                                        </apex:panelGroup>
+                                        <apex:panelGroup rendered="{!q.bQAns14}">
+                                            <apex:inputField value="{!q.sobjAnswer.Text_Answer14__c}" onchange="removeNonLatinChars(event)" style="width:150px;" styleClass="form-control"/>
+                                        </apex:panelGroup>
+                                        <apex:panelGroup rendered="{!q.bQAns15}">
+                                            <apex:inputField value="{!q.sobjAnswer.Text_Answer15__c}" onchange="removeNonLatinChars(event)" style="width:150px;" styleClass="form-control"/>
+                                        </apex:panelGroup>
+                                        <apex:panelGroup rendered="{!q.bQAns16}">
+                                            <apex:inputField value="{!q.sobjAnswer.Text_Answer16__c}" onchange="removeNonLatinChars(event)" style="width:150px;" styleClass="form-control"/>
+                                        </apex:panelGroup>
+                                    </apex:panelGrid>
+                                </apex:outputPanel>
+                                <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(NOT(ISNULL(q.sobjQuestion.Other_Info__c)), TRUE, FALSE)}">
+                                    <div class ="col-md-12">
+                                        <apex:outputText style="width:100%" escape="false" value="{!q.sobjQuestion.Other_Info__c}"/>
+                                    </div>
+                                </apex:outputPanel>
+                            </apex:outputPanel> 
+                        </apex:outputPanel> 
+                        <!-- Long Text Area -->
+                        <apex:outputPanel id="op8" layout="block" style="width:100%" rendered="{!IF(q.sobjQuestion.Type__c=='Long Text Area',TRUE,FALSE)}">
+                            <div class="row form-group">
+                                <div class="col-md-12">
+                                    <apex:outputText value="{!q.sobjQuestion.Question__c}" styleClass="mainQues"/>&nbsp;<font color="red"><strong>*</strong></font>
+                                </div>
+                            </div>
+                            <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(q.invalidAnswer,IF(q.invalidTextAreaLength==FALSE,TRUE,FALSE),FALSE)}">
+                                <div class ="col-md-12">
+                                    <font color="red"><strong>{!$Label.OnbrdGenErrorLabel}</strong>&nbsp;{!$Label.OnbrdFocusQuestionListInputError}</font>
+                                </div>
+                            </apex:outputPanel>
+                            <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(q.sobjQuestion.Question_Number__c =='10',TRUE,FALSE)}">
+                                <div class ="col-md-12">
+                                    <font color="red">
+                                        <apex:outputText value="{!$Label.OnbrdPrimaryQuestionnaireLongTextAreaError}" escape="false" rendered="{!IF(q.invalidAnswer,IF(q.invalidTextAreaLength,TRUE,FALSE),FALSE)}">
+                                            <apex:param value="300"/>
+                                        </apex:outputText>
+                                    </font>
+                                </div>
+                            </apex:outputPanel>
+                            <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(q.sobjQuestion.Question_Number__c =='11',TRUE,FALSE)}">
+                                <div class ="col-md-12">
+                                    <font color="red">
+                                        <apex:outputText value="{!$Label.OnbrdPrimaryQuestionnaireLongTextAreaError}" escape="false" rendered="{!IF(q.invalidAnswer,IF(q.invalidTextAreaLength,TRUE,FALSE),FALSE)}">
+                                            <apex:param value="200"/>
+                                        </apex:outputText>
+                                    </font>
+                                </div>
+                            </apex:outputPanel>
+                            <div class="form-group">
+                                <apex:panelGrid style="{!IF(q.sobjQuestion.Stretch_Table__c,'width:100%;table-layout:fixed;word-wrap:break-word;','')}" columns="{!IF(ISNULL(q.sobjQuestion.Number_of_Columns__c),1,q.sobjQuestion.Number_of_Columns__c)}">
+                                    <apex:panelGroup rendered="{!q.bCols1}">
+                                        <apex:outputPanel layout="block" style="width:150px">
+                                            <apex:outputText value="{!q.sobjQuestion.Label1__c}"/>&nbsp;&nbsp;
+                                        </apex:outputPanel>
+                                    </apex:panelGroup>
+                                    <apex:panelGroup rendered="{!q.bCols2}">
+                                        <apex:outputPanel layout="block" style="width:150px">
+                                            <apex:outputText value="{!q.sobjQuestion.Label2__c}"/>&nbsp;&nbsp;
+                                        </apex:outputPanel>
+                                    </apex:panelGroup>                                                                      
+                                </apex:panelGrid>
+                                <apex:panelGrid style="{!IF(q.sobjQuestion.Stretch_Table__c,'width:100%;table-layout:fixed;word-wrap:break-word;','')}" columns="{!IF(ISNULL(q.sobjQuestion.Number_of_Columns__c),1,q.sobjQuestion.Number_of_Columns__c)}">
+                                    <apex:panelGroup rendered="{!q.bQAns1}">
+                                        <apex:inputField value="{!q.sobjAnswer.Text_Answer17__c}" onchange="removeNonLatinChars(event)" style="width:350px;height:100px" styleClass="form-control"/>
+                                    </apex:panelGroup>
+                                    <apex:panelGroup rendered="{!q.bQAns2}">
+                                        <apex:inputField value="{!q.sobjAnswer.Text_Answer18__c}" onchange="removeNonLatinChars(event)" style="width:350px;height:100px" styleClass="form-control"/>
+                                    </apex:panelGroup>                                                                      
+                                </apex:panelGrid>
+                            </div>
+                            <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(NOT(ISNULL(q.sobjQuestion.Other_Info__c)), TRUE, FALSE)}">
+                                <div class ="col-md-12">
+                                    <apex:outputText style="width:100%" escape="false" value="{!q.sobjQuestion.Other_Info__c}"/>
+                                </div>
+                            </apex:outputPanel>
+                        </apex:outputPanel> 
+                        <!-- New Table Approach 2 -->
+                        <apex:outputPanel id="op9" style="width:100%;height:180px;" rendered="{!IF(q.sobjQuestion.Type__c=='Table',TRUE,FALSE)}">
+                            <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(q.sobjQuestion.Question_Number__c =='4' && mainCtrl.eLink.Retail_Specialization__c=='Digital Imaging/ProVideo',TRUE,FALSE)}">
+                                <div class="col-md-12">
+                                    <apex:outputText value="{!$Label.DigitalSpecSubHead5}" />
+                                </div>
+                            </apex:outputPanel>
+                            <div class="row form-group">
+                                <div class="col-md-12">
+                                    <apex:outputText value="{!q.sobjQuestion.Question__c}" styleClass="mainQues"/>
+                                </div>
+                            </div>
+                            <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(q.invalidAnswer,TRUE,FALSE)}">
+                                <div class="col-md-12">
+                                    <font color="red"><strong>{!$Label.OnbrdGenErrorLabel}</strong>&nbsp;{!$Label.OnbrdFocusQuestionListInputError}</font>
+                                </div>
+                            </apex:outputPanel>
+                            <table class="table">
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <apex:repeat value="{!q.lstSObjQuestionDetail}" var="d">
+                                        <td align="center"><apex:outputText value="{!d.sobjQDetail.Sub_Question__c}"/></td>
+                                        <td>&nbsp;</td>
+                                    </apex:repeat>
+                                </tr>
+                                <tr>
+                                    <td style="height:34px;">
+                                        <apex:outputText value="{!q.sobjQuestion.Label1__c}"/>
+                                    </td>
+                                    <td>&nbsp;</td>
+                                    <apex:repeat value="{!q.lstSObjQuestionDetail}" var="d">
+                                        <td style="height:35px;" >
+                                            <apex:inputField value="{!d.sobjDetailAns.Text_Answer1__c}" styleClass="form-control"/>
+                                        </td>
+                                        <td>&nbsp;</td>
+                                    </apex:repeat>
+                                </tr>
+                                <tr>
+                                    <td style="height:34px;" >
+                                        <apex:outputText value="{!q.sobjQuestion.Label2__c}"/>
+                                    </td>
+                                    <td>&nbsp;</td>
+                                    <apex:repeat value="{!q.lstSObjQuestionDetail}" var="d">
+                                        <td style="height:35px;" >
+                                            <apex:inputField value="{!d.sobjDetailAns.Text_Answer2__c}" styleClass="form-control"/>
+                                        </td>
+                                        <td>&nbsp;</td>
+                                    </apex:repeat>
+                                </tr>
+                                <tr>
+                                    <td style="height:34px;" >
+                                        <apex:outputText value="{!q.sobjQuestion.Label3__c}"/>
+                                    </td>
+                                    <td>&nbsp;</td>
+                                    <apex:repeat value="{!q.lstSObjQuestionDetail}" var="d">
+                                        <td style="height:35px;">
+                                            <apex:inputField value="{!d.sobjDetailAns.Text_Answer3__c}" styleClass="form-control"/>
+                                        </td>
+                                        <td>&nbsp;</td>
+                                    </apex:repeat>
+                                </tr>
+                                <tr>
+                                    <td style="height:34px;">
+                                        <apex:outputText value="{!q.sobjQuestion.Label4__c}"/>
+                                    </td>
+                                    <td>&nbsp;</td>
+                                    <apex:repeat value="{!q.lstSObjQuestionDetail}" var="d">
+                                        <td style="height:35px;">
+                                            <apex:inputField value="{!d.sobjDetailAns.Text_Answer4__c}" styleClass="form-control"/>
+                                        </td>
+                                        <td>&nbsp;</td>
+                                    </apex:repeat>
+                                </tr>
+                                <tr>
+                                    <td style="height:34px;">
+                                        <apex:outputText value="{!q.sobjQuestion.Label5__c}"/>
+                                    </td>
+                                    <td>&nbsp;</td>
+                                    <apex:repeat value="{!q.lstSObjQuestionDetail}" var="d">
+                                        <td style="height:35px;">
+                                            <apex:inputField value="{!d.sobjDetailAns.Text_Answer5__c}" styleClass="form-control"/>
+                                        </td>
+                                        <td>&nbsp;</td>
+                                    </apex:repeat>
+                                </tr>
+                                <tr>
+                                    <td style="height:34px;">
+                                        <apex:outputText value="{!q.sobjQuestion.Label6__c}"/>
+                                    </td>
+                                    <td>&nbsp;</td>
+                                    <apex:repeat value="{!q.lstSObjQuestionDetail}" var="d">
+                                        <td style="height:35px;">
+                                            <apex:inputField value="{!d.sobjDetailAns.Text_Answer6__c}" styleClass="form-control"/>
+                                        </td>
+                                        <td>&nbsp;</td>
+                                    </apex:repeat>
+                                </tr>
+                                <tr>
+                                    <td style="height:34px;">
+                                        <apex:outputText value="{!q.sobjQuestion.Label7__c}"/>
+                                    </td>
+                                    <td>&nbsp;</td>
+                                    <apex:repeat value="{!q.lstSObjQuestionDetail}" var="d">
+                                        <td style="height:35px;">
+                                            <apex:inputField value="{!d.sobjDetailAns.Text_Answer7__c}" styleClass="form-control"/>
+                                        </td>
+                                        <td>&nbsp;</td>
+                                    </apex:repeat>
+                                </tr>
+                                <tr>
+                                    <td style="height:34px;">
+                                        <apex:outputText value="{!q.sobjQuestion.Label8__c}"/>
+                                    </td>
+                                    <td>&nbsp;</td>
+                                    <apex:repeat value="{!q.lstSObjQuestionDetail}" var="d">
+                                        <td style="height:35px;">
+                                            <apex:inputField value="{!d.sobjDetailAns.Text_Answer8__c}" styleClass="form-control"/>
+                                        </td>
+                                        <td>&nbsp;</td>
+                                    </apex:repeat>
+                                </tr>
+                                <tr>
+                                    <td style="height:34px;">
+                                        <apex:outputText value="{!q.sobjQuestion.Label9__c}"/>
+                                    </td>
+                                    <td>&nbsp;</td>
+                                    <apex:repeat value="{!q.lstSObjQuestionDetail}" var="d">
+                                        <td style="height:35px;">
+                                            <apex:inputField value="{!d.sobjDetailAns.Text_Answer9__c}" styleClass="form-control"/>
+                                        </td>
+                                        <td>&nbsp;</td>
+                                    </apex:repeat>
+                                </tr>
+                                <tr>
+                                    <td style="height:34px;">
+                                        <apex:outputText value="{!q.sobjQuestion.Label10__c}"/>
+                                    </td>
+                                    <td>&nbsp;</td>
+                                    <apex:repeat value="{!q.lstSObjQuestionDetail}" var="d">
+                                        <td style="height:35px;">
+                                            <apex:inputField value="{!d.sobjDetailAns.Text_Answer10__c}" styleClass="form-control"/>
+                                        </td>
+                                        <td>&nbsp;</td>
+                                    </apex:repeat>
+                                </tr>                                                                    
+                            </table>
+                        </apex:outputPanel>
+                        <!-- Percentage -->
+                        <apex:outputPanel id="op10" layout="block" style="width:100%" rendered="{!IF(q.sobjQuestion.Type__c=='Percentage',TRUE,FALSE)}">
+                            <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(q.sobjQuestion.Question_Number__c =='20' && mainCtrl.eLink.Retail_Specialization__c=='Digital Imaging/ProVideo',TRUE,FALSE)}">
+                                <div class="col-md-12">
+                                    <apex:outputText value="{!$Label.DigitalSpecSubHead4}" /> <font color="red"><strong>*</strong></font>
+                                </div>
+                            </apex:outputPanel>
+                            <div class="row form-group">
+                                <div class="col-md-12">
+                                    <apex:outputText value="{!q.sobjQuestion.Question__c}" styleClass="mainQues"/>&nbsp;<font color="red"><strong>*</strong></font>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-12">
+                                    <apex:outputPanel style="width:100%" layout="block" rendered="{!IF(q.sobjQuestion.Question_Number__c !='7' && q.sobjQuestion.Question_Number__c !='8',TRUE,FALSE)}">
+                                        <apex:outputPanel style="width:100%" layout="block" rendered="{!IF(q.invalidAnswer,TRUE,FALSE)}">
+                                            <font color="red"><strong>{!$Label.OnbrdGenErrorLabel}</strong>&nbsp;{!$Label.OnbrdFocusQuestionListInputError}</font>
+                                        </apex:outputPanel>
+                                    </apex:outputPanel>
+                                    <apex:outputPanel style="width:100%" layout="block" rendered="{!IF(q.sobjQuestion.Question_Number__c =='7',TRUE,FALSE)}">
+                                        <apex:outputPanel style="width:100%" layout="block" rendered="{!IF(q.invalidPercentageAnswer,TRUE,FALSE)}">
+                                            <font color="red"><strong>{!$Label.OnbrdGenErrorLabel}</strong>&nbsp;{!$Label.PercentageValidation}</font>
+                                        </apex:outputPanel>
+                                    </apex:outputPanel>
+                                    <apex:outputPanel style="width:100%" layout="block" rendered="{!IF(q.sobjQuestion.Question_Number__c =='8',TRUE,FALSE)}">
+                                        <apex:outputPanel style="width:100%" layout="block" rendered="{!IF(q.invalidPercentageFieldValue,TRUE,FALSE)}">
+                                            <font color="red"><strong>{!$Label.OnbrdGenErrorLabel}</strong>&nbsp;{!$Label.OnbrdPercentageFieldValueZero}</font>
+                                        </apex:outputPanel>
+                                    </apex:outputPanel>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-md-3">
+                                    <apex:outputText value="{!q.sobjQuestion.Label1__c}"/>
+                                </div>
+                                <div class="col-md-3">
+                                    <apex:inputtext value="{!q.sobjAnswer.Text_Answer1__c}" onchange="removeNonLatinChars(event)" style="width:25px" styleClass="form-control" maxlength="3" id="Ques1"/><font size="3">%</font>
+                                </div>
+                            </div>
+                            <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(q.sobjQuestion.Question_Number__c =='8'||q.sobjQuestion.Question_Number__c =='7'||q.sobjQuestion.Question_Number__c =='23',TRUE,FALSE)}"> 
+                                <div class="col-md-3">
+                                    <apex:outputText value="{!q.sobjQuestion.Label2__c}"/>
+                                </div>
+                                <div class="col-md-3">
+                                    <apex:inputtext value="{!q.sobjAnswer.Text_Answer2__c}" onchange="removeNonLatinChars(event)" style="width:25px" styleClass="form-control" maxlength="3" id="Ques2"/><font size="3">%</font>
+                                </div>
+                            </apex:outputPanel>
+                            <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(q.sobjQuestion.Question_Number__c =='8',TRUE,FALSE)}">
+                                <div class="col-md-3">
+                                    <apex:outputText value="{!q.sobjQuestion.Label3__c}"/>
+                                </div>
+                                <div class="col-md-3">
+                                    <apex:inputtext value="{!q.sobjAnswer.Text_Answer3__c}" onchange="removeNonLatinChars(event)" style="width:25px" styleClass="form-control" maxlength="3" id="Ques3"/><font size="3">%</font>
+                                </div>
+                            </apex:outputPanel>
+                            <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(q.sobjQuestion.Question_Number__c =='8',TRUE,FALSE)}">
+                                <div class="col-md-3">
+                                    <apex:outputText value="{!q.sobjQuestion.Label4__c}"/>
+                                </div>
+                                <div class="col-md-3">
+                                    <apex:inputtext value="{!q.sobjAnswer.Text_Answer4__c}" onchange="removeNonLatinChars(event)" style="width:25px" styleClass="form-control" maxlength="3" id="Ques4"/><font size="3">%</font>
+                                </div>
+                            </apex:outputPanel>
+                            <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(q.sobjQuestion.Question_Number__c =='8',TRUE,FALSE)}">
+                                <div class="col-md-3">
+                                    <apex:outputText value="{!q.sobjQuestion.Label5__c}"/>
+                                </div>
+                                <div class="col-md-3">
+                                    <apex:inputtext value="{!q.sobjAnswer.Text_Answer5__c}" onchange="removeNonLatinChars(event)" style="width:25px" styleClass="form-control" maxlength="3" id="Ques5"/><font size="3">%</font>
+                                </div>
+                            </apex:outputPanel>
+                            <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(q.sobjQuestion.Question_Number__c =='8',TRUE,FALSE)}">
+                                <div class="col-md-3">
+                                    <apex:outputText value="{!q.sobjQuestion.Label6__c}"/>
+                                </div>
+                                <div class="col-md-3">
+                                    <apex:inputtext value="{!q.sobjAnswer.Text_Answer6__c}" onchange="removeNonLatinChars(event)" style="width:25px" styleClass="form-control" maxlength="3" id="Ques6"/><font size="3">%</font>
+                                </div>
+                            </apex:outputPanel>
+                            <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(NOT(ISNULL(q.sobjQuestion.Other_Info__c)), TRUE, FALSE)}">
+                                <div class="col-md-12">
+                                    <apex:outputText style="width:100%" escape="false" value="{!q.sobjQuestion.Other_Info__c}"/>
+                                </div>
+                            </apex:outputPanel>
+                        </apex:outputPanel> 
+                        <!-- Yes/No Followup -->
+                        <apex:outputPanel id="op11" layout="block" style="width:100%" rendered="{!IF(q.sobjQuestion.Type__c=='Yes/No Followup',TRUE,FALSE)}">
+                            <div class="row form-group">
+                                <div class="col-md-12">
+                                    <apex:outputText value="{!q.sobjQuestion.Question__c}" styleClass="mainQues"/>&nbsp;<font color="red"><strong>*</strong></font>
+                                </div>
+                            </div>
+                            <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(q.invalidAnswer,TRUE,FALSE)}">
+                                <apex:outputPanel styleClass="col-md-12" layout="block" rendered="{!IF(q.invalidFollowUpAnswer,TRUE,FALSE)}">
+                                    <font color="red"><strong>{!$Label.OnbrdGenErrorLabel}</strong>&nbsp;{!$Label.OnbrdPrimaryQuestionnaireYesNoFollowError}</font>
+                                </apex:outputPanel>
+                                <apex:outputPanel styleClass="col-md-12" layout="block" rendered="{!IF(NOT(q.invalidFollowUpAnswer),TRUE,FALSE)}">
+                                    <font color="red"><strong>{!$Label.OnbrdGenErrorLabel}</strong>&nbsp;{!$Label.OnbrdPrimaryQuestionnaireYesNoAnsError}</font>
+                                </apex:outputPanel>
+                            </apex:outputPanel>
+                            <div class="row form-group">
+                                <div class="col-md-12">
+                                    <apex:selectRadio value="{!q.sobjAnswer.Text_YNU__c}" layout="lineDirection">
+                                        <apex:selectOption itemValue="Yes" itemLabel="{!$Label.OnbrdGenAnsYes}"/>
+                                        <apex:selectOption itemValue="No" itemLabel="{!$Label.OnbrdGenAnsNo}"/>
+                                        <apex:selectOption itemValue="Unsure" itemLabel="{!$Label.OnbrdGenAnsUnsure}" rendered="{!q.sobjQuestion.Show_Unsure__c}"/>
+                                    </apex:selectRadio>
+                                </div>
+                            </div>
+                            <apex:repeat value="{!q.lstSObjQuestionDetail}" var="d">
+                                <apex:outputPanel styleClass="row form-group" rendered="{!d.sobjQDetail.Has_Sub_Question__c}">
+                                    <div class="col-md-12">
+                                        <apex:outputText value="{!d.sobjQDetail.Sub_Question__c}"/>
+                                    </div>
+                                </apex:outputPanel>
+                                <!-- QUESTION DETAIL TEXT AREA -->
+                                <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(d.sobjQDetail.Type__c=='TextArea',TRUE,FALSE)}">
+                                    <div class="col-md-12">
+                                        <apex:inputField value="{!d.sobjDetailAns.TextArea_Answer__c}" style="width:95%;height:80px" styleClass="form-control" onchange="removeNonLatinChars(event)"/>
+                                    </div>
+                                </apex:outputPanel> 
+                                <!-- QUESTION DETAIL LIST INPUT -->
+                                <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(d.sobjQDetail.Type__c=='List Input',TRUE,FALSE)}">
+                                    <apex:outputPanel layout="block" rendered="{!d.bQDAns1}" styleClass="col-md-12">
+                                        <apex:outputText value="{!d.sobjQDetail.Label1__c}"/>
+                                        <apex:inputField value="{!d.sobjDetailAns.Text_Answer1__c}" onchange="removeNonLatinChars(event)" style="width:150px;" styleClass="form-control"/>
+                                    </apex:outputPanel>
+                                </apex:outputPanel>
+                                <!-- QUESTION DETAIL LIST CHECKBOX (MULTISELECT) -->
+                                <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(d.sobjQDetail.Type__c=='List Checkbox (Multiselect)',TRUE,FALSE)}">
+                                    <div class="col-md-12">
+                                        <apex:selectCheckboxes value="{!d.sCheckboxAnswers}" layout="pageDirection">
+                                             <apex:selectOptions value="{!d.lstQuestionOptions}"/>
+                                        </apex:selectCheckboxes>
+                                    </div>
+                                </apex:outputPanel>
+                            </apex:repeat>
+                            <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(NOT(ISNULL(q.sobjQuestion.Other_Info__c)), TRUE, FALSE)}">
+                                <div class="col-md-12">
+                                    <apex:outputText style="width:100%" escape="false" value="{!q.sobjQuestion.Other_Info__c}"/>
+                                </div>
+                            </apex:outputPanel>
+                        </apex:outputPanel>
+                    </div>
+                </div>
+            </apex:repeat>
+        </div>
+    </div>
+    <apex:outputPanel layout="block" styleClass="panel panel-default" rendered="{!IF(mainCtrl.atchmt != null, TRUE, FALSE)}">
+        <div class="panel-heading" style="font-weight: bold;">{!$Label.SplznAttachmentHeader}<font color="red"><strong>*</strong></font></div>
+        <div class="panel-body">
+            <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(mainCtrl.eLink.Retail_Specialization__c=='Online Retail',TRUE,FALSE)}">
+                <div class="col-md-12">
+                    <apex:outputText value="{!$Label.RetailSpecAttachment1}" escape="false"/>
+                </div>
+            </apex:outputPanel>
+            <apex:outputPanel layout="block" styleClass="row form-group" rendered="{!IF(mainCtrl.eLink.Retail_Specialization__c=='Digital Imaging/ProVideo',TRUE,FALSE)}">
+                <div class="col-md-12">
+                    <apex:outputText value="{!$Label.NADI_ProVAttachmentHeader}" escape="false"/>
+                </div>
+            </apex:outputPanel>
+            <!--<apex:outputPanel styleClass="row form-group" layout="block" rendered="{!IF(hasNoAttachment && !attachNameExceed && mainCtrl.eLink.Retail_Specialization__c=='Online Retail',TRUE,FALSE)}">
+                <div class="col-md-12">
+                    <font color="red"><strong>{!$Label.OnbrdGenErrorLabel}</strong>&nbsp; {!$Label.NAOnlineRetailAttachementRequired}</font>
+                </div>
+            </apex:outputPanel>
+            <apex:outputPanel styleClass="row form-group" layout="block" rendered="{!IF(hasNoAttachment && !attachNameExceed && mainCtrl.eLink.Retail_Specialization__c=='Digital Imaging/ProVideo' ,TRUE,FALSE)}">
+                <div class="col-md-12">
+                    <font color="red"><strong>{!$Label.OnbrdGenErrorLabel}</strong>&nbsp; {!$Label.NADI_ProVAttachmentRequired}</font>
+                </div>
+            </apex:outputPanel>
+            <apex:outputPanel styleClass="row form-group" layout="block" rendered="{!attachSizeExceed}">
+                <div class="col-md-12">
+                    <font color="red"><strong>{!$Label.OnbrdGenErrorLabel}</strong>&nbsp; {!$Label.SplznRequiredExceededSizeMsg}</font>
+                </div>
+            </apex:outputPanel>
+            <apex:outputPanel styleClass="row form-group" layout="block" rendered="{!attachNameExceed}">
+                <div class="col-md-12">
+                    <font color="red"><strong>{!$Label.OnbrdGenErrorLabel}</strong>&nbsp; {!$Label.SplznNameExceededSizeMsg}</font>
+                </div>
+            </apex:outputPanel>-->
+            <apex:outputPanel styleClass="row form-group" layout="block" rendered="{!mainCtrl.atchmt.Id != null}">
+                <div class="col-md-12">
+                    <apex:outputText value="Click here to see the Existing Attachment "/>                        
+                    <apex:outputLink value="{!URLFOR($Action.Attachment.Download, mainCtrl.atchmt.Id)}" target="_blank"> {!mainCtrl.atchmt.Name}</apex:outputLink>
+                    <apex:outputText value=" . Can upload a new one to replace the existing attachment"></apex:outputText>
+                </div>
+            </apex:outputPanel>
+            <apex:outputPanel id="inputFile" layout="block" styleClass="row form-group">
+                <div class="col-md-12" ex="{!mainCtrl.atchmt.Id != null}">
+                    <apex:inputFile value="{!mainCtrl.atchmt.Body}" filename="{!mainCtrl.atchmt.Name}" filesize="{!mainCtrl.atchmt.BodyLength}"
+                            onchange="validateFile(this);" id="atchmt"/>
+                </div>
+                <span style="display:none;" class="help-block parsley-required" id="atchmtReqDoc">
+                    {!$Label.OnbrdGenInputErrorMsg}
+                </span>
+            </apex:outputPanel>
+        </div>
+    </apex:outputPanel>
+    <script type="text/javascript">
+        function validateFile(itm) {
+            var msg;
+            if (!itm.files || !itm.files.length) {
+                var jParDiv = jQuery(itm).parent();
+                if (jParDiv.attr('ex') == "false") {
+                    if ('{!mainCtrl.eLink.Retail_Specialization__c}' == 'Online Retail') {
+                        msg = '{!$Label.NAOnlineRetailAttachementRequired}';
+                    } else if ('{!mainCtrl.eLink.Retail_Specialization__c}' == 'Digital Imaging/ProVideo') {
+                        msg = '{!$Label.NADI_ProVAttachmentRequired}';
+                    }
+                }
+            } else if (!itm.files[0].name || !itm.files[0].size) {
+                msg = 'Invalid document';
+            } else if (itm.files[0].name.length > 80) {
+                msg = '{!$Label.SplznNameExceededSizeMsg}';
+            } else if (itm.files[0].size > 5000000) {
+                msg = '{!$Label.SplznRequiredExceededSizeMsg}';
+            }
+            if (msg) {
+                jQuery('#atchmtReqDoc').text(msg).show();
+                jQuery(itm).val('');
+                return false;
+            } else {
+                jQuery('#atchmtReqDoc').hide();
+                return true;
+            }
+        }
+    </script>
+</apex:component>

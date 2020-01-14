@@ -1,0 +1,13 @@
+<!-- 
+ * Company     : Adobe Systems Inc.
+ * Description : This page is used to override the new account creation for verification purpose 
+ * History     : 
+ * [19.APR.2011]  Srinivasan Babu   -  Code Creation
+-->
+<apex:page standardController="Account" extensions="AccountDeleteWSMDSExt" action="{!redirect}">
+    <apex:pageMessages >
+          <apex:message id="ReturnNullValueId" style="display:block;"/>
+          <apex:message id="CatchValueId" style="display:block;"/>
+    </apex:pageMessages>
+    <apex:outputLink value="/{!sLink}/o" id="theLink">Click Here!</apex:outputLink>
+</apex:page>

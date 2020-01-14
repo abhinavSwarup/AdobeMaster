@@ -1,0 +1,37 @@
+<!--
+* Company		: Adobe Systems Inc
+* Description 	: Footer Component for the UI Customization.
+* History
+* [25.APR.2010] N. Bustillos	- Code creation. 
+* [12.AUG.2010]	N. Bustillos	- Use Custom labels.
+ -->
+<apex:component >
+	<div class="footer" >
+		<table cellpadding="1" cellspacing="0" border="0">
+			<tr>
+				<td colspan="2" class="footertext">
+						<a href="http://www.adobe.com/go/gftray_foot_careers" target="new" class="link" onmouseover="this.className='linkhover';" onmouseout="this.className='link';">&nbsp;{!$Label.AdobePortalFooterCareerLink}&nbsp;</a>
+						<strong>|</strong><a href="http://www.adobe.com/go/gftray_foot_privacy_security" target="new" class="link" onmouseover="this.className='linkhover';" onmouseout="this.className='link';">&nbsp;{!$Label.AdobePortalFooterPrivacyPolicy}&nbsp;</a>
+						<strong>|</strong><a href="http://www.adobe.com/go/gftray_foot_terms" target="new" class="link" onmouseover="this.className='linkhover';" onmouseout="this.className='link';">&nbsp;{!$Label.AdobePortalFooterTermsUse}&nbsp;</a>
+						<strong>|</strong><a href="http://www.adobe.com/go/gftray_foot_contact_adobe" target="new" class="link" onmouseover="this.className='linkhover';" onmouseout="this.className='link';">&nbsp;{!$Label.AdobePortalFooterContactUs}&nbsp;</a>
+						<strong>|</strong><a href="http://www.adobe.com/go/gftray_foot_accessibility" target="new" class="link" onmouseover="this.className='linkhover';" onmouseout="this.className='link';">&nbsp;{!$Label.AdobePortalFooterAccessibility}&nbsp;</a>
+						<strong>|</strong><a href="http://www.adobe.com/go/gftray_foot_report_piracy" target="new" class="link" onmouseover="this.className='linkhover';" onmouseout="this.className='link';">&nbsp;{!$Label.AdobePortalFooterReportPiracy}&nbsp;</a>
+						<strong>|</strong><a href="http://www.adobe.com/go/gftray_foot_permissions_trademarks" target="new" class="link" onmouseover="this.className='linkhover';" onmouseout="this.className='link';">&nbsp;{!$Label.AdobePortalFooterPermissions}&nbsp;</a>
+						<strong>|</strong><a href="http://www.adobe.com/go/gftray_foot_product_license_agreements" target="new" class="link" onmouseover="this.className='linkhover';" onmouseout="this.className='link';">&nbsp;{!$Label.AdobePortalFooterLicense}&nbsp;</a>
+						<strong>|</strong><a href="http://www.adobe.com/go/gftray_foot_feedback" target="new" class="link" onmouseover="this.className='linkhover';" onmouseout="this.className='link';">&nbsp;{!$Label.AdobePortalFooterFeedback}&nbsp;</a>
+						<br/><br/>
+				</td>
+			</tr>
+			<tr>
+				<td width="90%" class="footertext">
+					{!$Label.AdobePortalFooterCpyrLine1Part1}&nbsp;<a href="http://www.adobe.com/go/gftray_all_rights_reserved" target="new" class="link" onmouseover="this.className='linkhover';" onmouseout="this.className='link';">{!$Label.AdobePortalFooterCpyrLine1Part2}</a><br/>
+					{!$Label.AdobePortalFooterCpyrLine2Part1}&nbsp;<a href="http://www.adobe.com/go/gftray_foot_terms" target="new" class="link" onmouseover="this.className='linkhover';" onmouseout="this.className='link';">{!$Label.AdobePortalFooterCpyrLine2Part2}</a>&nbsp;{!$Label.AdobePortalFooterCpyrLine2Part3}&nbsp;<a href="http://www.adobe.com/go/gftray_foot_privacy_security" target="new" class="link" onmouseover="this.className='linkhover';" onmouseout="this.className='link';">{!$Label.AdobePortalFooterCpyrLine2Part4}</a><br/>
+					{!$Label.AdobePortalFooterCpyrLine3Part1}&nbsp;<a href="http://www.google.com/" target="new" class="link" onmouseover="this.className='linkhover';" onmouseout="this.className='link';">{!$Label.AdobePortalFooterCpyrLine3Part2}</a>
+				</td>
+				<td width="10%" align="center">
+					<a href="http://www.adobe.com/go/gftray_foot_truste" target="new" class="link"><img src="{!URLFOR($Resource.AdobePortalStyles, 'images/truste_seal_eu.gif')}" alt="Reviewed by TRUSTe: site privacy statement" id="trustelogo" height="33" width="116"/></a>
+				</td>
+			</tr>
+		</table>
+	</div>
+</apex:component>

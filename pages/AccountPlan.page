@@ -1,0 +1,26 @@
+<!--
+Company     : Adobe Systems Inc.
+Description : Container for the Adobe Account Planning app, which utilizes the AppExchange App named GridBuddy.
+History     : Original page created September, 2014 (F. Kibbish).
+            : The "VSAM" version of the page includes the ValuePrompter tab and sub-grids.
+-->
+
+<apex:page standardController="Account_Plan__c" docType="html-5.0" sidebar="false" showHeader="true">
+    <style>
+        <!--Fix for dots in nested tabs in IE11-->
+        ul { list-style: none; }
+        <!-- Tab styling by id to override default styling in generated VF page -->
+        div.ui-tabs-panel.ui-widget-content { padding-top: 5px; }
+        a#ui-id-1, a#ui-id-2, a#ui-id-3, a#ui-id-4, a#ui-id-5, a#ui-id-6, a#ui-id-7, a#ui-id-8, a#ui-id-9, a#ui-id-10, a#ui-id-11, a#ui-id-12 { padding: 6px; background-color: #cccccc; }
+        a#ui-id-1, a#ui-id-2, a#ui-id-3, a#ui-id-4, a#ui-id-5 { background-color: #FDFDC5}
+    </style>
+    <p>
+        <span style="font: 14pt verdana;">&nbsp;&nbsp;&nbsp;Adobe Account Plan: <strong>{!Account_Plan__c.Parent_Account__r.Name}</strong>&nbsp;&nbsp; | &nbsp;&nbsp;</span>
+        <span style="background-color: #FDFDC5;font-weight: bold;">Yellow highlighted tabs</span>
+        <span style="font-weight: bold;"> are required for all Account Plans &nbsp;</span>        
+        <span style="float: right; margin-right: 20px;"><a href="https://adobe.sharepoint.com/sites/acctmgmt/_layouts/15/WopiFrame.aspx?sourcedoc=%7B47921139-ACEB-4C5B-9DC5-DED528ABE8F2%7D&file=Account%20Planning%20Help.docx&action=default" target="_blank"> <span style="color: #00A0DF;font-weight: bold;">Account Plan Help</span></a></span>
+    </p>
+    <div id="tabs">
+        <apex:include pageName="GBTabs_Account_Plan"/>
+    </div>
+</apex:page>

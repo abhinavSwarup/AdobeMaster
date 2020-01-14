@@ -1,0 +1,82 @@
+<!--
+* Company       : Adobe Systems Inc
+* Description   : Header Component for the UI Customization.
+* History
+* [25.APR.2010]     N. Bustillos    - Code creation. 
+* [21.NOV.2011] : A. Mehta    -  Changed link of logo from http://www.adobe.com/go/gn_home_logo to http://www.adobe.com  Request #CRQ000000010653 linked to 
+                  Incident # INC000000011688 for correcting the broken link.  
+ -->
+<apex:component >
+<div class="header" width="100%">
+        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+            <tr >
+                <td align="left" width="10%">
+                    &nbsp;&nbsp;&nbsp;
+  
+  <!--[21.NOV.2011] Edited by A Mehta for correcting the  link to http://www.adobe.com -->                  
+                 <a href="http://www.adobe.com">
+  <!-- [21.NOV.2011] End of edited by A Mehta  -->                      
+  
+                        <img id="adobe-logo-lq" src="{!URLFOR($Resource.AdobePortalStyles,'images/adobe-lq.png')}" alt="Adobe" height="72" width="43"/>
+                    </a>
+                </td>
+                <td width="80%" valign="bottom">
+                    <table width="100%" cellpadding="0" cellspacing="5" border="0">
+                        <tr>
+                            <td colspan="4">
+                                <!--  
+                                <apex:outputPanel layout="block" style="width:100%" rendered="{!showUserLogin}">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Welcome {!strName}! [<a href="/secur/logout.jsp" class="link">Logout</a>]
+                                </apex:outputPanel>
+                                -->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center">
+                                <!--  
+                                <apex:outputPanel layout="block" style="width:100%" rendered="{!showMenus}">
+                                    <a href="/apex/HomePagePortal" class="headerLink" onmouseover="this.className='headerLinkHover';" onmouseout="this.className='headerLink';">&nbsp;&nbsp;Home&nbsp;&nbsp;</a>
+                                </apex:outputPanel>
+                                -->
+                            </td>
+                            <td align="center">
+                                <!--  
+                                <apex:outputPanel layout="block" style="width:100%" rendered="{!showMenus}">
+                                    <a href="/001/o" class="headerLink" onmouseover="this.className='headerLinkHover';" onmouseout="this.className='headerLink';">&nbsp;&nbsp;Accounts&nbsp;&nbsp;</a>
+                                </apex:outputPanel>
+                                -->
+                            </td>
+                            <td align="center">
+                                <!--  
+                                <apex:outputPanel layout="block" style="width:100%" rendered="{!showMenus}">
+                                    <a href="/003/o" class="headerLink" onmouseover="this.className='headerLinkHover';" onmouseout="this.className='headerLink';">&nbsp;&nbsp;Contacts&nbsp;&nbsp;</a>
+                                </apex:outputPanel>
+                                -->
+                            </td>
+                            <td align="center">
+                                <!--  
+                                <apex:outputPanel layout="block" style="width:100%" rendered="{!showMenus}">
+                                    <a href="/006/o" class="headerLink" onmouseover="this.className='headerLinkHover';" onmouseout="this.className='headerLink';">&nbsp;&nbsp;Opportunities&nbsp;&nbsp;</a>
+                                </apex:outputPanel>
+                                -->
+                            </td>
+                            <td align="center">
+                                <!--  
+                                <apex:outputPanel layout="block" style="width:100%" rendered="{!showMenus}">
+                                    <a href="/00O/o" class="headerLink" onmouseover="this.className='headerLinkHover';" onmouseout="this.className='headerLink';">&nbsp;&nbsp;Reports&nbsp;&nbsp;</a>
+                                </apex:outputPanel>
+                                -->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">&nbsp;</td>
+                        </tr>
+                    </table>
+                </td>
+                <td width="10%" valign="bottom" align="center">
+                    &nbsp;
+                </td>
+            </tr>
+        </table>
+    </div>
+</apex:component>

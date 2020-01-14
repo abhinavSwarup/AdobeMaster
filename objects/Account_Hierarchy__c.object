@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+	<actionOverrides>
+		<actionName>Accept</actionName>
+		<type>Default</type>
+	</actionOverrides>
+	<actionOverrides>
+		<actionName>Clone</actionName>
+		<type>Default</type>
+	</actionOverrides>
+	<actionOverrides>
+		<actionName>Delete</actionName>
+		<type>Default</type>
+	</actionOverrides>
+	<actionOverrides>
+		<actionName>Edit</actionName>
+		<type>Default</type>
+	</actionOverrides>
+	<actionOverrides>
+		<actionName>List</actionName>
+		<type>Default</type>
+	</actionOverrides>
+	<actionOverrides>
+		<actionName>New</actionName>
+		<type>Default</type>
+	</actionOverrides>
+	<actionOverrides>
+		<actionName>Tab</actionName>
+		<type>Default</type>
+	</actionOverrides>
+	<actionOverrides>
+		<actionName>View</actionName>
+		<type>Default</type>
+	</actionOverrides>
+	<deploymentStatus>Deployed</deploymentStatus>
+	<enableActivities>false</enableActivities>
+	<enableFeeds>false</enableFeeds>
+	<enableHistory>false</enableHistory>
+	<enableReports>true</enableReports>
+	<fields>
+		<fullName>Account__c</fullName>
+		<deleteConstraint>SetNull</deleteConstraint>
+		<externalId>false</externalId>
+		<label>Account</label>
+		<referenceTo>Account</referenceTo>
+		<relationshipLabel>Account Hierarchy</relationshipLabel>
+		<relationshipName>Account_Hierarchy</relationshipName>
+		<required>false</required>
+		<type>Lookup</type>
+	</fields>
+	<fields>
+		<fullName>ParentId__c</fullName>
+		<deleteConstraint>SetNull</deleteConstraint>
+		<externalId>false</externalId>
+		<label>ParentId</label>
+		<referenceTo>Account</referenceTo>
+		<relationshipLabel>Account Hierarchy (ParentId)</relationshipLabel>
+		<relationshipName>Account_HierarchyParent</relationshipName>
+		<required>false</required>
+		<type>Lookup</type>
+	</fields>
+	<fields>
+		<fullName>Top_Parent__c</fullName>
+		<deleteConstraint>SetNull</deleteConstraint>
+		<externalId>false</externalId>
+		<label>Top Parent</label>
+		<referenceTo>Account</referenceTo>
+		<relationshipLabel>Account Hierarchy (Top Parent)</relationshipLabel>
+		<relationshipName>Account_HierarchyTopParent</relationshipName>
+		<required>false</required>
+		<type>Lookup</type>
+	</fields>
+	<label>Account Hierarchy</label>
+	<listViews>
+		<fullName>All</fullName>
+		<columns>NAME</columns>
+		<columns>OBJECT_ID</columns>
+		<columns>Account__c</columns>
+		<columns>Top_Parent__c</columns>
+		<columns>ParentId__c</columns>
+		<columns>CREATEDBY_USER</columns>
+		<filterScope>Everything</filterScope>
+		<label>All</label>
+		<language>en_US</language>
+	</listViews>
+	<listViews>
+		<fullName>All1</fullName>
+		<filterScope>Everything</filterScope>
+		<label>All</label>
+	</listViews>
+	<nameField>
+		<displayFormat>A{0000000000}{YYYY}</displayFormat>
+		<label>Account Hierarchy Name</label>
+		<type>AutoNumber</type>
+	</nameField>
+	<pluralLabel>Account Hierarchy</pluralLabel>
+	<searchLayouts />
+	<sharingModel>ReadWrite</sharingModel>
+</CustomObject>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+	<customSettingsType>List</customSettingsType>
+	<description>Computation of Architecture and Launch Services - Pricing.</description>
+	<enableFeeds>false</enableFeeds>
+	<fields>
+		<fullName>MAX_ASV__c</fullName>
+		<externalId>false</externalId>
+		<label>MAX ASV</label>
+		<precision>18</precision>
+		<required>false</required>
+		<scale>0</scale>
+		<trackTrending>false</trackTrending>
+		<type>Currency</type>
+	</fields>
+	<fields>
+		<fullName>MIN_ASV__c</fullName>
+		<externalId>false</externalId>
+		<label>MIN ASV</label>
+		<precision>18</precision>
+		<required>false</required>
+		<scale>0</scale>
+		<trackTrending>false</trackTrending>
+		<type>Currency</type>
+	</fields>
+	<fields>
+		<fullName>OPG__c</fullName>
+		<externalId>false</externalId>
+		<label>OPG</label>
+		<length>255</length>
+		<required>false</required>
+		<trackTrending>false</trackTrending>
+		<type>Text</type>
+		<unique>false</unique>
+	</fields>
+	<fields>
+		<fullName>Price__c</fullName>
+		<externalId>false</externalId>
+		<label>Price</label>
+		<precision>18</precision>
+		<required>false</required>
+		<scale>0</scale>
+		<trackTrending>false</trackTrending>
+		<type>Currency</type>
+	</fields>
+	<fields>
+		<fullName>Size__c</fullName>
+		<externalId>false</externalId>
+		<label>Size</label>
+		<length>50</length>
+		<required>false</required>
+		<trackTrending>false</trackTrending>
+		<type>Text</type>
+		<unique>false</unique>
+	</fields>
+	<label>A&amp;L Potential Pricing</label>
+	<visibility>Public</visibility>
+</CustomObject>

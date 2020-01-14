@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+	<actionOverrides>
+		<actionName>Accept</actionName>
+		<type>Default</type>
+	</actionOverrides>
+	<actionOverrides>
+		<actionName>CancelEdit</actionName>
+		<type>Default</type>
+	</actionOverrides>
+	<actionOverrides>
+		<actionName>Clone</actionName>
+		<type>Default</type>
+	</actionOverrides>
+	<actionOverrides>
+		<actionName>Delete</actionName>
+		<type>Default</type>
+	</actionOverrides>
+	<actionOverrides>
+		<actionName>Edit</actionName>
+		<type>Default</type>
+	</actionOverrides>
+	<actionOverrides>
+		<actionName>Follow</actionName>
+		<type>Default</type>
+	</actionOverrides>
+	<actionOverrides>
+		<actionName>List</actionName>
+		<type>Default</type>
+	</actionOverrides>
+	<actionOverrides>
+		<actionName>New</actionName>
+		<type>Default</type>
+	</actionOverrides>
+	<actionOverrides>
+		<actionName>SaveEdit</actionName>
+		<type>Default</type>
+	</actionOverrides>
+	<actionOverrides>
+		<actionName>Tab</actionName>
+		<type>Default</type>
+	</actionOverrides>
+	<actionOverrides>
+		<actionName>View</actionName>
+		<type>Default</type>
+	</actionOverrides>
+	<allowInChatterGroups>false</allowInChatterGroups>
+	<compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+	<deploymentStatus>Deployed</deploymentStatus>
+	<description>To capture Arch&amp;Launch Svc Exception Status.</description>
+	<enableActivities>false</enableActivities>
+	<enableBulkApi>true</enableBulkApi>
+	<enableFeeds>false</enableFeeds>
+	<enableHistory>true</enableHistory>
+	<enableReports>true</enableReports>
+	<enableSearch>true</enableSearch>
+	<enableSharing>true</enableSharing>
+	<enableStreamingApi>true</enableStreamingApi>
+	<externalSharingModel>ControlledByParent</externalSharingModel>
+	<fields>
+		<fullName>A_L_Package__c</fullName>
+		<externalId>false</externalId>
+		<label>A&amp;L Package</label>
+		<picklist>
+			<picklistValues>
+				<fullName>AUDIENCE MANAGER</fullName>
+				<default>false</default>
+			</picklistValues>
+			<picklistValues>
+				<fullName>AEM</fullName>
+				<default>false</default>
+			</picklistValues>
+			<picklistValues>
+				<fullName>CAMPAIGN</fullName>
+				<default>false</default>
+			</picklistValues>
+			<picklistValues>
+				<fullName>MULTI-SOLUTION</fullName>
+				<default>false</default>
+			</picklistValues>
+			<picklistValues>
+				<fullName>ANALYTICS</fullName>
+				<default>false</default>
+			</picklistValues>
+			<picklistValues>
+				<fullName>TARGET</fullName>
+				<default>false</default>
+			</picklistValues>
+			<sorted>false</sorted>
+		</picklist>
+		<required>true</required>
+		<trackHistory>true</trackHistory>
+		<trackTrending>false</trackTrending>
+		<type>Picklist</type>
+	</fields>
+	<fields>
+		<fullName>Opportunity_DR_Reg_Id__c</fullName>
+		<description>DR Id of associated opportunity</description>
+		<externalId>false</externalId>
+		<formula>Opportunity__r.Deal_Registration_Id__c</formula>
+		<inlineHelpText>DR Id of associated opportunity</inlineHelpText>
+		<label>Opportunity DR Reg Id</label>
+		<required>false</required>
+		<trackHistory>false</trackHistory>
+		<trackTrending>false</trackTrending>
+		<type>Text</type>
+		<unique>false</unique>
+	</fields>
+	<fields>
+		<fullName>Opportunity__c</fullName>
+		<externalId>false</externalId>
+		<label>Opportunity</label>
+		<referenceTo>Opportunity</referenceTo>
+		<relationshipName>Arch_Launch_Svc_Exceptions</relationshipName>
+		<relationshipOrder>0</relationshipOrder>
+		<reparentableMasterDetail>false</reparentableMasterDetail>
+		<trackHistory>false</trackHistory>
+		<trackTrending>false</trackTrending>
+		<type>MasterDetail</type>
+		<writeRequiresMasterRead>false</writeRequiresMasterRead>
+	</fields>
+	<fields>
+		<fullName>Status__c</fullName>
+		<externalId>false</externalId>
+		<label>Status</label>
+		<picklist>
+			<picklistValues>
+				<fullName>Exception Requested</fullName>
+				<default>false</default>
+			</picklistValues>
+			<picklistValues>
+				<fullName>Exception Approved</fullName>
+				<default>false</default>
+			</picklistValues>
+			<picklistValues>
+				<fullName>Exception Denied</fullName>
+				<default>false</default>
+			</picklistValues>
+			<picklistValues>
+				<fullName>Adjustment Approved</fullName>
+				<default>false</default>
+			</picklistValues>
+			<sorted>false</sorted>
+		</picklist>
+		<required>true</required>
+		<trackHistory>false</trackHistory>
+		<trackTrending>false</trackTrending>
+		<type>Picklist</type>
+	</fields>
+	<label>A&amp;L Exception</label>
+	<nameField>
+		<displayFormat>AL-{0000000}</displayFormat>
+		<label>A&amp;L Exception #</label>
+		<trackHistory>false</trackHistory>
+		<type>AutoNumber</type>
+	</nameField>
+	<pluralLabel>A&amp;L Exceptions</pluralLabel>
+	<searchLayouts />
+	<sharingModel>ControlledByParent</sharingModel>
+</CustomObject>

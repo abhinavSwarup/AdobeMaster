@@ -1,0 +1,66 @@
+<apex:page standardController="Account" showHeader="false">
+<style>
+#ssr-button {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.5), #e5c130 12px);
+    border-radius: 3px;
+    box-shadow: 3px 0 5px -3px #999, -3px 0 5px -3px #999;
+    cursor: pointer;
+    display: block;
+    height: 22px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.inner {
+    margin-left: auto;
+    margin-right: auto; 
+    width:1060px;   
+}
+.innerDiv {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: auto; 
+    height : {!$Label.Duplicate_Opportunity_Warning_Height};
+    overflow : auto;
+}
+.middle {
+    display: table-cell;
+    vertical-align: middle;
+}
+.outer {
+    display: table;
+    position: absolute;
+    height: 110px !important;
+    width: 100%;
+    
+}
+
+</style>
+<div class="outer">    
+    <div class="middle">
+        <div class="inner">
+            <div align="center">  
+                <apex:outputPanel rendered="{!IF($Setup.UserProfileSettings__c.SSR__c != '',true,false)}">            
+                    <button class="btn" height="30" id="ssr-button" onclick="window.open('/apex/SalesSupportRequest?parentId={!$CurrentPage.parameters.id}&visibility=Account')">Sales Support Request</button> 
+                </apex:outputPanel>  
+            </div>
+            <div class = "innerDiv"  >          
+                <apex:pageMessages />
+                <apex:outputPanel layout="block" rendered="{!ISPICKVAL($User.UserType, 'Standard') && Account.Is_Litigated__c && (Account.RecordType.Name =='Customer Account' || Account.RecordType.Name == 'Partner Account')}" id="dispute_info_section" styleClass="message infoM3 " style="padding-bottom: 0px; padding;;background-color: yellow;">
+                    <div style="float: left; width: 24px; height: 28px;" class="msgIcon">
+                        <img class="msgIcon" title="INFO" src="/s.gif" alt="INFO"/>
+                    </div>
+                    <div style="padding-left: 28px;" class="messageText ">{!$Label.Account_popup_info_for_disputed_Account}</div>        
+                </apex:outputPanel> 
+                      
+                <apex:outputPanel layout="block" rendered="{!ISPICKVAL($User.UserType, 'Standard') && Account.Trade_Compliance__c}" id="trade_compliance_section" styleClass="message infoM3 " style="padding-bottom: 0px; padding;;background-color: yellow;">
+                    <div style="float: left; width: 24px; height: 28px;" class="msgIcon">
+                        <img class="msgIcon" title="INFO" src="/s.gif" alt="INFO"/>
+                    </div>
+                    <div style="padding-left: 28px;" class="messageText ">{!$Label.Account_popup_info_for_Trade_Compliance_Account}</div>        
+                </apex:outputPanel> 
+            </div>
+        </div>
+    </div>
+</div>
+
+</apex:page>
